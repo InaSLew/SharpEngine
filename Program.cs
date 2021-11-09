@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using GLFW;
 using static OpenGL.Gl;
 
@@ -10,15 +12,14 @@ namespace SharpEngine
         {
             -1f, -.5f, 0f,
             0f, -.5f, 0f,
-            -.5f, .5f, 0f
-        };
-        
-        private static float[] vertices2 =
-        {
+            -.5f, .5f, 0f,
+            
             0f, -.5f, 0f,
             1f, -.5f, 0f,
             .5f, .5f, 0f
         };
+
+        private static int NumberOfTriangles = 2;
         
         static void Main(string[] args)
         {
@@ -30,18 +31,17 @@ namespace SharpEngine
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
-                // glClearColor(0,0,0, 1);
-                // glClear(GL_COLOR_BUFFER_BIT);
-                glDrawArrays(GL_TRIANGLES, 0, 3);
+                glClearColor(0,0,0, 1);
+                glClear(GL_COLOR_BUFFER_BIT);
+                glDrawArrays(GL_TRIANGLES, 0, 3 * NumberOfTriangles);
                 glFlush();
-                LoadTriangleIntoBuffer(vertices2);
 
                 // MoveToRight();
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
                 
-                // UpdateTriangleBuffer();
+                UpdateTriangleBuffer(vertices);
             }
         }
 
@@ -103,7 +103,7 @@ namespace SharpEngine
             var vertexBuffer = glGenBuffer();
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-            UpdateTriangleBuffer(ref vertices);
+            UpdateTriangleBuffer(vertices);
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
             glEnableVertexAttribArray(0);
         }
@@ -128,7 +128,7 @@ namespace SharpEngine
             glUseProgram(program);
         }
 
-        private static unsafe void UpdateTriangleBuffer(ref float[] tempVertices)
+        private static unsafe void UpdateTriangleBuffer(float[] tempVertices)
         {
             fixed (float* vertex = &tempVertices[0])
             {
