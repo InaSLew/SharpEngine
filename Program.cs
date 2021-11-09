@@ -8,31 +8,40 @@ namespace SharpEngine
     {
         private static float[] vertices =
         {
-            -.5f, -.5f, 0f,
-            .5f, -.5f, 0f,
-            0f, .5f, 0f
+            -1f, -.5f, 0f,
+            0f, -.5f, 0f,
+            -.5f, .5f, 0f
+        };
+        
+        private static float[] vertices2 =
+        {
+            0f, -.5f, 0f,
+            1f, -.5f, 0f,
+            .5f, .5f, 0f
         };
         
         static void Main(string[] args)
         {
             var window = CreateWindow();
-            LoadTriangleIntoBuffer();
+            LoadTriangleIntoBuffer(vertices);
             CreateShaderProgram();
 
             // Rendering loop
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
-                glClearColor(0,0,0, 1);
-                glClear(GL_COLOR_BUFFER_BIT);
+                // glClearColor(0,0,0, 1);
+                // glClear(GL_COLOR_BUFFER_BIT);
                 glDrawArrays(GL_TRIANGLES, 0, 3);
                 glFlush();
+                LoadTriangleIntoBuffer(vertices2);
 
                 // MoveToRight();
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
-                UpdateTriangleBuffer();
+                
+                // UpdateTriangleBuffer();
             }
         }
 
@@ -87,14 +96,14 @@ namespace SharpEngine
             return window;
         }
         
-        private static unsafe void LoadTriangleIntoBuffer()
+        private static unsafe void LoadTriangleIntoBuffer(float[] vertices)
         {
             // Load vertices into buffer
             var vertexArray = glGenVertexArray();
             var vertexBuffer = glGenBuffer();
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-            UpdateTriangleBuffer();
+            UpdateTriangleBuffer(ref vertices);
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
             glEnableVertexAttribArray(0);
         }
@@ -119,9 +128,9 @@ namespace SharpEngine
             glUseProgram(program);
         }
 
-        private static unsafe void UpdateTriangleBuffer()
+        private static unsafe void UpdateTriangleBuffer(ref float[] tempVertices)
         {
-            fixed (float* vertex = &vertices[0])
+            fixed (float* vertex = &tempVertices[0])
             {
                 glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.Length, vertex, GL_STATIC_DRAW);
             }
