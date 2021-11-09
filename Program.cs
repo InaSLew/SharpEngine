@@ -30,12 +30,20 @@ namespace SharpEngine
 
                 // MoveToRight();
                 // MoveDown();
-                ShrinkTriangle();
-                
+                // ShrinkTriangle();
+                // ScaleUpTriangle();
                 UpdateTriangleBuffer();
             }
         }
 
+        private static void ScaleUpTriangle()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] *= 1.00009f;
+            }
+        }
+        
         private static void ShrinkTriangle()
         {
             for (var i = 0; i < vertices.Length; i++)
