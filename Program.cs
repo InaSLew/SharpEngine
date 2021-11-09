@@ -27,8 +27,18 @@ namespace SharpEngine
                 glClear(GL_COLOR_BUFFER_BIT);
                 glDrawArrays(GL_TRIANGLES, 0, 3);
                 glFlush();
-                vertices[4] += 0.001f;
+
+                MoveToRight();
+                
                 UpdateTriangleBuffer();
+            }
+        }
+
+        private static void MoveToRight()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                if (i % 3 == 0) vertices[i] += 0.001f;
             }
         }
 
