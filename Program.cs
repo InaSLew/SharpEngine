@@ -1,6 +1,4 @@
-﻿using System;
-using GLFW;
-using OpenGL;
+﻿using GLFW;
 using static OpenGL.Gl;
 
 namespace SharpEngine
