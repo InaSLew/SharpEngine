@@ -29,9 +29,18 @@ namespace SharpEngine
                 glFlush();
 
                 // MoveToRight();
-                MoveDown();
+                // MoveDown();
+                ShrinkTriangle();
                 
                 UpdateTriangleBuffer();
+            }
+        }
+
+        private static void ShrinkTriangle()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] *= 0.9999f;
             }
         }
 
