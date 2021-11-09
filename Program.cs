@@ -28,9 +28,18 @@ namespace SharpEngine
                 glDrawArrays(GL_TRIANGLES, 0, 3);
                 glFlush();
 
-                MoveToRight();
+                // MoveToRight();
+                MoveDown();
                 
                 UpdateTriangleBuffer();
+            }
+        }
+
+        private static void MoveDown()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                if (i % 3 == 1) vertices[i] -= 0.001f;
             }
         }
 
