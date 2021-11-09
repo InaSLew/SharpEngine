@@ -6,19 +6,20 @@ namespace SharpEngine
 {
     class Program
     {
-        static float[] vertices =
+        private static float[] vertices =
         {
             -.5f, -.5f, 0f,
             .5f, -.5f, 0f,
             0f, .5f, 0f
         };
+        
         static void Main(string[] args)
         {
             var window = CreateWindow();
             LoadTriangleIntoBuffer();
             CreateShaderProgram();
 
-            // Rendering loop here
+            // Rendering loop
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
@@ -52,7 +53,6 @@ namespace SharpEngine
         
         private static unsafe void LoadTriangleIntoBuffer()
         {
-
             // Load vertices into buffer
             var vertexArray = glGenVertexArray();
             var vertexBuffer = glGenBuffer();
@@ -83,7 +83,7 @@ namespace SharpEngine
             glUseProgram(program);
         }
 
-        static unsafe void UpdateTriangleBuffer()
+        private static unsafe void UpdateTriangleBuffer()
         {
             fixed (float* vertex = &vertices[0])
             {
