@@ -8,6 +8,21 @@ namespace SharpEngine
     {
         static void Main(string[] args)
         {
+            var window = CreateWindow();
+            LoadTriangleIntoBuffer();
+            CreateShaderProgram();
+
+            // Rendering loop here
+            while (!Glfw.WindowShouldClose(window))
+            {
+                Glfw.PollEvents(); // reacts to window changes (position etc.)
+                glDrawArrays(GL_TRIANGLES, 0, 3);
+                glFlush();
+            }
+        }
+
+        private static Window CreateWindow()
+        {
             // Initialize and configure
             Glfw.Init();
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
@@ -22,7 +37,11 @@ namespace SharpEngine
             var window = Glfw.CreateWindow(1024, 768, "SharpEngine", Monitor.None, Window.None);
             Glfw.MakeContextCurrent(window);
             Import(Glfw.GetProcAddress);
-            
+            return window;
+        }
+        
+        private static void LoadTriangleIntoBuffer()
+        {
             // draw a triangle (3d coordinates required)
             var vertices = new float[]
             {
@@ -45,8 +64,10 @@ namespace SharpEngine
                 glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
             }
             glEnableVertexAttribArray(0);
-
-            
+        }
+        
+        private static void CreateShaderProgram()
+        {
             // create vertex shader
             var vertexShader = glCreateShader(GL_VERTEX_SHADER);
             glShaderSource(vertexShader, File.ReadAllText("shaders/red-triangle.vert"));
@@ -63,14 +84,6 @@ namespace SharpEngine
             glAttachShader(program, fragmentShader);
             glLinkProgram(program);
             glUseProgram(program);
-
-            // Rendering loop here
-            while (!Glfw.WindowShouldClose(window))
-            {
-                Glfw.PollEvents(); // reacts to window changes (position etc.)
-                glDrawArrays(GL_TRIANGLES, 0, 3);
-                glFlush();
-            }
         }
     }
 }
