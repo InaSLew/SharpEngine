@@ -25,6 +25,7 @@ namespace SharpEngine
             this.z = 0;
         }
 
+        public static Vector operator *(Vector v, float f) => new Vector(v.x * f, v.y * f, v.z * f);
     }
     class Program
     {
@@ -45,12 +46,12 @@ namespace SharpEngine
 
         private static Vector[] vertices =
         {
-            new Vector(-1f, -.5f),
-            new Vector(0f, -.5f),
-            new Vector(-.5f, .5f),
-            new Vector(0f, -.5f),
-            new Vector(1f, -.5f),
-            new Vector(.5f, .5f)
+            new (-1f, -.5f),
+            new (0f, -.5f),
+            new (-.5f, .5f),
+            new (0f, -.5f),
+            new (1f, -.5f),
+            new (.5f, .5f)
         };
 
         private const int VertexSize = 3;
@@ -86,8 +87,8 @@ namespace SharpEngine
                 glFlush();
 
                 // MoveToRight();
-                MoveDown();
-                // ShrinkTriangle();
+                // MoveDown();
+                ShrinkTriangle();
                 // ScaleUpTriangle();
 
                 UpdateTriangleBuffer(vertices);
@@ -120,21 +121,21 @@ namespace SharpEngine
         //     }
         // }
 
-        // private static void ScaleUpTriangle()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         vertices[i] *= 1.00009f;
-        //     }
-        // }
+        private static void ScaleUpTriangle()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] *= 1.00009f;
+            }
+        }
         
-        // private static void ShrinkTriangle()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         vertices[i] *= 0.9999f;
-        //     }
-        // }
+        private static void ShrinkTriangle()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] *= 0.9999f;
+            }
+        }
 
         private static void MoveDown()
         {
