@@ -55,10 +55,13 @@ namespace SharpEngine
             new (-.1f, -.1f),
             new (.1f, -.1f),
             new (0f, .1f),
+            new (.4f, .4f),
+            new (.6f, .4f),
+            new (.5f, .6f)
             
-            new (0f, -.5f),
-            new (1f, -.5f),
-            new (.5f, .5f)
+            // new (0f, -.5f),
+            // new (1f, -.5f),
+            // new (.5f, .5f)
         };
 
         private const int VertexSize = 3;
@@ -98,20 +101,20 @@ namespace SharpEngine
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
-                GoToTopRight();
-                // ReverseIfTouchEdge();
+                GoTopRightAndBounceIfTouch();
                 UpdateTriangleBuffer(vertices);
             }
             Glfw.Terminate();
         }
 
-        // private static void ReverseIfTouchEdge()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         if (vertices[i].x > 1f) vertices[i] = vertices[i] + (-0.0001f, 0f, 0f);
-        //     }
-        // }
+        private static void ReverseIfTouchEdge()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                Console.WriteLine("x: " + vertices[i].x);
+                if (vertices[i].x > 1f) vertices[i] += new Vector(-0.0001f, -0.0001f, -0.0001f);
+            }
+        }
 
         // private static unsafe void RotateTriangle(float deltaTime)
         // {
@@ -170,11 +173,12 @@ namespace SharpEngine
             }
         }
         
-        private static void GoToTopRight()
+        private static void GoTopRightAndBounceIfTouch()
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i] += new Vector(0.0001f, 0.0001f);
+                vertices[i] += new Vector(0.00001f, 0);
+                //else if (vertices[i].x > 1) vertices[i] += new Vector(-0.0001f, -0.0001f);
             }
         }
 
