@@ -11,6 +11,13 @@ namespace SharpEngine
     {
         internal float x, y, z;
 
+        public Vector(float x, float y, float z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
         public Vector(float x, float y)
         {
             this.x = x;
@@ -48,7 +55,6 @@ namespace SharpEngine
 
         // private static uint[] elements = new uint[6] { 0, 1, 2, 2, 3, 0 };
 
-        private static int NumberOfTriangles = 1;
         private static int uniTrans;
         private static Stopwatch timer;
         private static float angle;
