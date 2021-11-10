@@ -7,27 +7,46 @@ using static OpenGL.Gl;
 
 namespace SharpEngine
 {
+    struct Vector
+    {
+        internal float x, y, z;
+
+        public Vector(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = 0;
+        }
+
+    }
     class Program
     {
-        private static float[] vertices =
-        {
-            // -.5f, -.5f, 0f, 1f, 0, 0,
-            // .5f, -.5f, 0f, 0, 1f, 0,
-            // 0f, .5f, 0f, 0, 0, 1
-            -1f, -.5f, 0f,
-            0f, -.5f, 0f,
-            -.5f, .5f, 0f,
+        // private static float[] vertices =
+        // {
+        //     -1f, -.5f, 0f, 
+        //     0f, -.5f, 0f, 
+        //     -.5f, .5f, 0f, 
+        //
+        //     0f, -.5f, 0f, 
+        //     1f, -.5f, 0f, 
+        //     .5f, .5f, 0f 
+        //     // -0.5f,  0.5f, 0, 1.0f, 0.0f, 0.0f, // Top-left
+        //     // 0.5f,  0.5f, 0, 0.0f, 1.0f, 0.0f, // Top-right
+        //     // 0.5f, -0.5f, 0, 0.0f, 0.0f, 1.0f, // Bottom-right
+        //     // -0.5f, -0.5f, 0, 1.0f, 1.0f, 1.0f, // Bottom-left
+        // };
 
-            0f, -.5f, 0f,
-            1f, -.5f, 0f,
-            .5f, .5f, 0f
-            // -0.5f,  0.5f, 0, 1.0f, 0.0f, 0.0f, // Top-left
-            // 0.5f,  0.5f, 0, 0.0f, 1.0f, 0.0f, // Top-right
-            // 0.5f, -0.5f, 0, 0.0f, 0.0f, 1.0f, // Bottom-right
-            // -0.5f, -0.5f, 0, 1.0f, 1.0f, 1.0f, // Bottom-left
+        private static Vector[] vertices =
+        {
+            new Vector(-1f, -.5f),
+            new Vector(0f, -.5f),
+            new Vector(-.5f, .5f),
+            new Vector(0f, -.5f),
+            new Vector(1f, -.5f),
+            new Vector(.5f, .5f)
         };
 
-        private static uint[] elements = new uint[6] { 0, 1, 2, 2, 3, 0 };
+        // private static uint[] elements = new uint[6] { 0, 1, 2, 2, 3, 0 };
 
         private static int NumberOfTriangles = 1;
         private static int uniTrans;
@@ -40,34 +59,33 @@ namespace SharpEngine
             LoadTriangleIntoBuffer(vertices);
             var program = CreateShaderProgram();
             // test(program);
-            timer = Stopwatch.StartNew();
+            // timer = Stopwatch.StartNew();
 
             // Rendering loop
             while (!Glfw.WindowShouldClose(window))
             {
-                timer.Stop();
-                var deltaTime = timer.ElapsedMilliseconds / 1000f;
-                timer.Restart();
+                // timer.Stop();
+                // var deltaTime = timer.ElapsedMilliseconds / 1000f;
+                // timer.Restart();
                 
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
                 glClearColor(0,0,0, 1);
                 glClear(GL_COLOR_BUFFER_BIT);
 
                 // RotateTriangle(deltaTime);
-                
-                
-                glDrawArrays(GL_TRIANGLES, 0, 6);
+
+                glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
                 // Draw2TrianglesWithArrayElementBuffer();
                 glFlush();
 
-                // MoveToRight();
+                MoveToRight();
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
 
                 UpdateTriangleBuffer(vertices);
             }
-            //Glfw.Terminate();
+            Glfw.Terminate();
         }
 
         private static unsafe void RotateTriangle(float deltaTime)
@@ -87,43 +105,44 @@ namespace SharpEngine
             }
         }
 
-        private static unsafe void Draw2TrianglesWithArrayElementBuffer()
-        {
-            fixed (uint* element = &elements[0])
-            {
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, element);
-            }
-        }
+        // private static unsafe void Draw2TrianglesWithArrayElementBuffer()
+        // {
+        //     fixed (uint* element = &elements[0])
+        //     {
+        //         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, element);
+        //     }
+        // }
 
-        private static void ScaleUpTriangle()
-        {
-            for (var i = 0; i < vertices.Length; i++)
-            {
-                vertices[i] *= 1.00009f;
-            }
-        }
+        // private static void ScaleUpTriangle()
+        // {
+        //     for (var i = 0; i < vertices.Length; i++)
+        //     {
+        //         vertices[i] *= 1.00009f;
+        //     }
+        // }
         
-        private static void ShrinkTriangle()
-        {
-            for (var i = 0; i < vertices.Length; i++)
-            {
-                vertices[i] *= 0.9999f;
-            }
-        }
+        // private static void ShrinkTriangle()
+        // {
+        //     for (var i = 0; i < vertices.Length; i++)
+        //     {
+        //         vertices[i] *= 0.9999f;
+        //     }
+        // }
 
-        private static void MoveDown()
-        {
-            for (var i = 0; i < vertices.Length; i++)
-            {
-                if (i % 3 == 1) vertices[i] -= 0.001f;
-            }
-        }
+        // private static void MoveDown()
+        // {
+        //     for (var i = 0; i < vertices.Length; i++)
+        //     {
+        //         if (i % 3 == 1) vertices[i] -= 0.001f;
+        //     }
+        // }
 
         private static void MoveToRight()
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                if (i % 3 == 0) vertices[i] += 0.001f;
+                vertices[i].x += 0.001f;
+                // if (i % 3 == 0) vertices[i] += 0.001f;
             }
         }
 
@@ -146,7 +165,7 @@ namespace SharpEngine
             return window;
         }
         
-        private static unsafe void LoadTriangleIntoBuffer(float[] vertices)
+        private static unsafe void LoadTriangleIntoBuffer(Vector[] vertices)
         {
             // Load vertices into buffer
             var vertexArray = glGenVertexArray();
@@ -195,11 +214,11 @@ namespace SharpEngine
             return program;
         }
 
-        private static unsafe void UpdateTriangleBuffer(float[] tempVertices)
+        private static unsafe void UpdateTriangleBuffer(Vector[] tempVertices)
         {
-            fixed (float* vertex = &tempVertices[0])
+            fixed (Vector* vertex = &tempVertices[0])
             {
-                glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.Length, vertex, GL_STATIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(Vector) * vertices.Length, vertex, GL_STATIC_DRAW);
             }
         }
 
