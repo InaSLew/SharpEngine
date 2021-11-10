@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using GLFW;
 using GlmNet;
@@ -50,26 +48,15 @@ namespace SharpEngine
 
         private static Vector[] vertices =
         {
-            // new (-1f, -.5f),
-            // new (0f, -.5f),
-            // new (-.5f, .5f),
             new (-.1f, -.1f),
             new (.1f, -.1f),
             new (0f, .1f),
             new (.4f, .4f),
             new (.6f, .4f),
             new (.5f, .6f)
-            
-            // new (0f, -.5f),
-            // new (1f, -.5f),
-            // new (.5f, .5f)
         };
 
         private const int VertexSize = 3;
-        
-        // stuff for rotation
-        // private static int uniTrans;
-        // private static Stopwatch timer;
         private const int Width = 1024;
         private const int Height = 768;
         private static bool hasTouchRight;
@@ -80,23 +67,14 @@ namespace SharpEngine
             var window = CreateWindow();
             LoadTriangleIntoBuffer(vertices);
             var program = CreateShaderProgram();
-            // test(program);
-            // timer = Stopwatch.StartNew();
 
             // Rendering loop
             while (!Glfw.WindowShouldClose(window))
             {
-                // timer.Stop();
-                // var deltaTime = timer.ElapsedMilliseconds / 1000f;
-                // timer.Restart();
-                
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
                 glClearColor(0,0,0, 1);
                 glClear(GL_COLOR_BUFFER_BIT);
-
-                // RotateTriangle(deltaTime);
                 glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
-                // Draw2TrianglesWithArrayElementBuffer();
                 glFlush();
 
                 // MoveToRight();
@@ -123,14 +101,6 @@ namespace SharpEngine
         //             t[i] = test[i];
         //         }
         //         glUniformMatrix4fv(uniTrans, 1, false, t);
-        //     }
-        // }
-
-        // private static unsafe void Draw2TrianglesWithArrayElementBuffer()
-        // {
-        //     fixed (uint* element = &elements[0])
-        //     {
-        //         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, element);
         //     }
         // }
 
@@ -254,13 +224,5 @@ namespace SharpEngine
                 glBufferData(GL_ARRAY_BUFFER, sizeof(Vector) * vertices.Length, vertex, GL_STATIC_DRAW);
             }
         }
-
-        // private static unsafe void UpdateElementBuffer()
-        // {
-        //     fixed (uint* element = &elements[0])
-        //     {
-        //         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * elements.Length, element, GL_STATIC_DRAW);
-        //     }
-        // }
     }
 }
