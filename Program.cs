@@ -1,7 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using GLFW;
+using OpenGL;
 using static OpenGL.Gl;
 
 namespace SharpEngine
@@ -10,22 +9,22 @@ namespace SharpEngine
     {
         private static float[] vertices =
         {
-            -1f, -.5f, 0f,
-            0f, -.5f, 0f,
-            -.5f, .5f, 0f,
-            
-            0f, -.5f, 0f,
-            1f, -.5f, 0f,
-            .5f, .5f, 0f
+            -.5f, -.5f, 0f, 1f, 0, 0,
+            .5f, -.5f, 0f, 0, 1f, 0,
+            0f, .5f, 0f, 0, 0, 1
         };
 
-        private static int NumberOfTriangles = 2;
-        
+        private static int NumberOfTriangles = 1;
+
         static void Main(string[] args)
         {
             var window = CreateWindow();
             LoadTriangleIntoBuffer(vertices);
-            CreateShaderProgram();
+            var program = CreateShaderProgram();
+            test(program);
+
+            // var uniColor = glGetUniformLocation(program, "zeldaMeows");
+            // glUniform3f(uniColor, 1f, 0, 0);
 
             // Rendering loop
             while (!Glfw.WindowShouldClose(window))
@@ -40,9 +39,10 @@ namespace SharpEngine
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
-                
+
                 UpdateTriangleBuffer(vertices);
             }
+            Glfw.Terminate();
         }
 
         private static void ScaleUpTriangle()
@@ -107,8 +107,19 @@ namespace SharpEngine
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
             glEnableVertexAttribArray(0);
         }
+
+        private static unsafe void test(uint program)
+        {
+            var posAttrib = (uint)glGetAttribLocation(program, "pos");
+            glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 6 * sizeof(float), NULL);
+            glEnableVertexAttribArray(posAttrib);
+
+            var colAttrib = (uint) glGetAttribLocation(program, "color");
+            glVertexAttribPointer(colAttrib, 3, GL_FLOAT, false, 6 * sizeof(float), (void*)(3*sizeof(float)));
+            glEnableVertexAttribArray(colAttrib);
+        }
         
-        private static void CreateShaderProgram()
+        private static uint CreateShaderProgram()
         {
             // create vertex shader
             var vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -126,6 +137,7 @@ namespace SharpEngine
             glAttachShader(program, fragmentShader);
             glLinkProgram(program);
             glUseProgram(program);
+            return program;
         }
 
         private static unsafe void UpdateTriangleBuffer(float[] tempVertices)
