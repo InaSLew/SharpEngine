@@ -72,7 +72,8 @@ namespace SharpEngine
         // private static Stopwatch timer;
         private const int Width = 1024;
         private const int Height = 768;
-        private static bool hasTouchRight = false;
+        private static bool hasTouchRight;
+        private static bool hasTouchTop;
 
         static void Main(string[] args)
         {
@@ -102,7 +103,7 @@ namespace SharpEngine
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
-                GoTopRight();
+                GoTopRightAndBounceWhenHitBorder();
                 UpdateTriangleBuffer();
             }
             Glfw.Terminate();
@@ -165,14 +166,17 @@ namespace SharpEngine
             }
         }
         
-        private static void GoTopRight()
+        private static void GoTopRightAndBounceWhenHitBorder()
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i] += hasTouchRight ? new Vector(-0.0005f, -0.0005f) : new Vector(0.0005f, 0.0005f);
+                vertices[i] += new Vector(hasTouchRight ? -0.0005f : 0.0005f, hasTouchTop ? -0.0005f : 0.0005f);
             }
 
             if (vertices.Any(v => v.x > 1f)) hasTouchRight = true;
+            if (vertices.Any(v => v.x < -1f)) hasTouchRight = false;
+            if (vertices.Any(v => v.y > 1f)) hasTouchTop = true;
+            if (vertices.Any(v => v.y < -1f)) hasTouchTop = false;
         }
 
         private static Window CreateWindow()
