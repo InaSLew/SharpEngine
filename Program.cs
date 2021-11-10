@@ -57,7 +57,6 @@ namespace SharpEngine
 
         private static int uniTrans;
         private static Stopwatch timer;
-        private static float angle;
 
         static void Main(string[] args)
         {
@@ -148,7 +147,6 @@ namespace SharpEngine
             for (var i = 0; i < vertices.Length; i++)
             {
                 vertices[i].x += 0.001f;
-                // if (i % 3 == 0) vertices[i] += 0.001f;
             }
         }
 
