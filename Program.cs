@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using GLFW;
 using GlmNet;
 using OpenGL;
@@ -71,6 +72,7 @@ namespace SharpEngine
         // private static Stopwatch timer;
         private const int Width = 1024;
         private const int Height = 768;
+        private static bool hasTouchRight = false;
 
         static void Main(string[] args)
         {
@@ -92,7 +94,6 @@ namespace SharpEngine
                 glClear(GL_COLOR_BUFFER_BIT);
 
                 // RotateTriangle(deltaTime);
-
                 glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
                 // Draw2TrianglesWithArrayElementBuffer();
                 glFlush();
@@ -101,19 +102,10 @@ namespace SharpEngine
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
-                GoTopRightAndBounceIfTouch();
-                UpdateTriangleBuffer(vertices);
+                GoTopRight();
+                UpdateTriangleBuffer();
             }
             Glfw.Terminate();
-        }
-
-        private static void ReverseIfTouchEdge()
-        {
-            for (var i = 0; i < vertices.Length; i++)
-            {
-                Console.WriteLine("x: " + vertices[i].x);
-                if (vertices[i].x > 1f) vertices[i] += new Vector(-0.0001f, -0.0001f, -0.0001f);
-            }
         }
 
         // private static unsafe void RotateTriangle(float deltaTime)
@@ -173,13 +165,14 @@ namespace SharpEngine
             }
         }
         
-        private static void GoTopRightAndBounceIfTouch()
+        private static void GoTopRight()
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i] += new Vector(0.00001f, 0);
-                //else if (vertices[i].x > 1) vertices[i] += new Vector(-0.0001f, -0.0001f);
+                vertices[i] += hasTouchRight ? new Vector(-0.0005f, -0.0005f) : new Vector(0.0005f, 0.0005f);
             }
+
+            if (vertices.Any(v => v.x > 1f)) hasTouchRight = true;
         }
 
         private static Window CreateWindow()
@@ -195,7 +188,7 @@ namespace SharpEngine
             Glfw.WindowHint(Hint.Doublebuffer, Constants.False);
 
             // create and launch window
-            var window = Glfw.CreateWindow(1024, 768, "SharpEngine", Monitor.None, Window.None);
+            var window = Glfw.CreateWindow(Width, Height, "SharpEngine", Monitor.None, Window.None);
             Glfw.MakeContextCurrent(window);
             Import(Glfw.GetProcAddress);
             return window;
@@ -210,7 +203,7 @@ namespace SharpEngine
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
             // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-            UpdateTriangleBuffer(vertices);
+            UpdateTriangleBuffer();
             // UpdateElementBuffer();
             glVertexAttribPointer(0, VertexSize, GL_FLOAT, false, sizeof(Vector), NULL);
             glEnableVertexAttribArray(0);
@@ -250,9 +243,9 @@ namespace SharpEngine
             return program;
         }
 
-        private static unsafe void UpdateTriangleBuffer(Vector[] tempVertices)
+        private static unsafe void UpdateTriangleBuffer()
         {
-            fixed (Vector* vertex = &tempVertices[0])
+            fixed (Vector* vertex = &vertices[0])
             {
                 glBufferData(GL_ARRAY_BUFFER, sizeof(Vector) * vertices.Length, vertex, GL_STATIC_DRAW);
             }
