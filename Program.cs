@@ -83,8 +83,8 @@ namespace SharpEngine
                 // Draw2TrianglesWithArrayElementBuffer();
                 glFlush();
 
-                MoveToRight();
-                // MoveDown();
+                // MoveToRight();
+                MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
 
@@ -134,13 +134,13 @@ namespace SharpEngine
         //     }
         // }
 
-        // private static void MoveDown()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         if (i % 3 == 1) vertices[i] -= 0.001f;
-        //     }
-        // }
+        private static void MoveDown()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].y -= 0.001f;
+            }
+        }
 
         private static void MoveToRight()
         {
