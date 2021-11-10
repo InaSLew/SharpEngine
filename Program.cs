@@ -11,9 +11,12 @@ namespace SharpEngine
     {
         private static float[] vertices =
         {
-            -.5f, -.5f, 0f, 1f, 0, 0,
-            .5f, -.5f, 0f, 0, 1f, 0,
-            0f, .5f, 0f, 0, 0, 1
+            // -.5f, -.5f, 0f, 1f, 0, 0,
+            // .5f, -.5f, 0f, 0, 1f, 0,
+            // 0f, .5f, 0f, 0, 0, 1
+            -.5f, -.5f, 0f,
+            .5f, -.5f, 0f,
+            0f, .5f, 0f
             // -0.5f,  0.5f, 0, 1.0f, 0.0f, 0.0f, // Top-left
             // 0.5f,  0.5f, 0, 0.0f, 1.0f, 0.0f, // Top-right
             // 0.5f, -0.5f, 0, 0.0f, 0.0f, 1.0f, // Bottom-right
@@ -32,7 +35,7 @@ namespace SharpEngine
             var window = CreateWindow();
             LoadTriangleIntoBuffer(vertices);
             var program = CreateShaderProgram();
-            test(program);
+            // test(program);
             timer = Stopwatch.StartNew();
 
             // Rendering loop
@@ -46,10 +49,10 @@ namespace SharpEngine
                 glClearColor(0,0,0, 1);
                 glClear(GL_COLOR_BUFFER_BIT);
 
-                RotateTriangle(deltaTime);
+                // RotateTriangle(deltaTime);
                 
                 
-                glDrawArrays(GL_TRIANGLES, 0, 3 * NumberOfTriangles);
+                glDrawArrays(GL_TRIANGLES, 0, 3);
                 // Draw2TrianglesWithArrayElementBuffer();
                 glFlush();
 
@@ -150,8 +153,8 @@ namespace SharpEngine
             // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
             UpdateTriangleBuffer(vertices);
             // UpdateElementBuffer();
-            //glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * sizeof(float), NULL);
-            //glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
+            glEnableVertexAttribArray(0);
         }
 
         private static unsafe void test(uint program)
@@ -161,10 +164,10 @@ namespace SharpEngine
             glEnableVertexAttribArray(posAttrib);
 
             var colAttrib = (uint) glGetAttribLocation(program, "color");
-            glVertexAttribPointer(colAttrib, 3, GL_FLOAT, false, 6 * sizeof(float), (void*)(3*sizeof(float)));
+            glVertexAttribPointer(colAttrib, 3, GL_FLOAT, false, 6 * sizeof(float), (void*)(3 * sizeof(float)));
             glEnableVertexAttribArray(colAttrib);
 
-            uniTrans = glGetUniformLocation(program, "trans");
+            // uniTrans = glGetUniformLocation(program, "trans");
         }
         
         private static uint CreateShaderProgram()
@@ -196,12 +199,12 @@ namespace SharpEngine
             }
         }
 
-        private static unsafe void UpdateElementBuffer()
-        {
-            fixed (uint* element = &elements[0])
-            {
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * elements.Length, element, GL_STATIC_DRAW);
-            }
-        }
+        // private static unsafe void UpdateElementBuffer()
+        // {
+        //     fixed (uint* element = &elements[0])
+        //     {
+        //         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * elements.Length, element, GL_STATIC_DRAW);
+        //     }
+        // }
     }
 }
