@@ -69,6 +69,12 @@ namespace SharpEngine
             var program = CreateShaderProgram();
 
             // Rendering loop
+            Render(window);
+            Glfw.Terminate();
+        }
+
+        private static void Render(Window window)
+        {
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
@@ -84,7 +90,6 @@ namespace SharpEngine
                 GoTopRightAndBounceWhenHitBorder();
                 UpdateTriangleBuffer();
             }
-            Glfw.Terminate();
         }
 
         // private static unsafe void RotateTriangle(float deltaTime)
