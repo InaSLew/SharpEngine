@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using GLFW;
+using GlmNet;
 using OpenGL;
 using static OpenGL.Gl;
 
@@ -12,9 +14,18 @@ namespace SharpEngine
             -.5f, -.5f, 0f, 1f, 0, 0,
             .5f, -.5f, 0f, 0, 1f, 0,
             0f, .5f, 0f, 0, 0, 1
+            // -0.5f,  0.5f, 0, 1.0f, 0.0f, 0.0f, // Top-left
+            // 0.5f,  0.5f, 0, 0.0f, 1.0f, 0.0f, // Top-right
+            // 0.5f, -0.5f, 0, 0.0f, 0.0f, 1.0f, // Bottom-right
+            // -0.5f, -0.5f, 0, 1.0f, 1.0f, 1.0f, // Bottom-left
         };
 
+        private static uint[] elements = new uint[6] { 0, 1, 2, 2, 3, 0 };
+
         private static int NumberOfTriangles = 1;
+        private static int uniTrans;
+        private static Stopwatch timer;
+        private static float angle;
 
         static void Main(string[] args)
         {
@@ -22,17 +33,24 @@ namespace SharpEngine
             LoadTriangleIntoBuffer(vertices);
             var program = CreateShaderProgram();
             test(program);
-
-            // var uniColor = glGetUniformLocation(program, "zeldaMeows");
-            // glUniform3f(uniColor, 1f, 0, 0);
+            timer = Stopwatch.StartNew();
 
             // Rendering loop
             while (!Glfw.WindowShouldClose(window))
             {
+                timer.Stop();
+                var deltaTime = timer.ElapsedMilliseconds / 1000f;
+                timer.Restart();
+                
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
                 glClearColor(0,0,0, 1);
                 glClear(GL_COLOR_BUFFER_BIT);
+
+                RotateTriangle(deltaTime);
+                
+                
                 glDrawArrays(GL_TRIANGLES, 0, 3 * NumberOfTriangles);
+                // Draw2TrianglesWithArrayElementBuffer();
                 glFlush();
 
                 // MoveToRight();
@@ -42,7 +60,32 @@ namespace SharpEngine
 
                 UpdateTriangleBuffer(vertices);
             }
-            Glfw.Terminate();
+            //Glfw.Terminate();
+        }
+
+        private static unsafe void RotateTriangle(float deltaTime)
+        {
+            var trans = new mat4(1f);
+            var tmp = new vec3(0, 0, 1f);
+            trans = glm.rotate(trans, deltaTime * glm.radians(180f), tmp);
+            var test = trans.to_array();
+
+            fixed (float* t = new float[test.Length])
+            {
+                for (int i = 0; i < test.Length; i++)
+                {
+                    t[i] = test[i];
+                }
+                glUniformMatrix4fv(uniTrans, 1, false, t);
+            }
+        }
+
+        private static unsafe void Draw2TrianglesWithArrayElementBuffer()
+        {
+            fixed (uint* element = &elements[0])
+            {
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, element);
+            }
         }
 
         private static void ScaleUpTriangle()
@@ -101,11 +144,14 @@ namespace SharpEngine
             // Load vertices into buffer
             var vertexArray = glGenVertexArray();
             var vertexBuffer = glGenBuffer();
+            // var elementBuffer = glGenBuffer();
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+            // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
             UpdateTriangleBuffer(vertices);
-            glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
-            glEnableVertexAttribArray(0);
+            // UpdateElementBuffer();
+            //glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * sizeof(float), NULL);
+            //glEnableVertexAttribArray(0);
         }
 
         private static unsafe void test(uint program)
@@ -117,6 +163,8 @@ namespace SharpEngine
             var colAttrib = (uint) glGetAttribLocation(program, "color");
             glVertexAttribPointer(colAttrib, 3, GL_FLOAT, false, 6 * sizeof(float), (void*)(3*sizeof(float)));
             glEnableVertexAttribArray(colAttrib);
+
+            uniTrans = glGetUniformLocation(program, "trans");
         }
         
         private static uint CreateShaderProgram()
@@ -145,6 +193,14 @@ namespace SharpEngine
             fixed (float* vertex = &tempVertices[0])
             {
                 glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.Length, vertex, GL_STATIC_DRAW);
+            }
+        }
+
+        private static unsafe void UpdateElementBuffer()
+        {
+            fixed (uint* element = &elements[0])
+            {
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * elements.Length, element, GL_STATIC_DRAW);
             }
         }
     }
