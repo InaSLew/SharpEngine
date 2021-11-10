@@ -25,7 +25,8 @@ namespace SharpEngine
             this.z = 0;
         }
 
-        public static Vector operator *(Vector v, float f) => new Vector(v.x * f, v.y * f, v.z * f);
+        public static Vector operator *(Vector v, float f) => new (v.x * f, v.y * f, v.z * f);
+        public static Vector operator +(Vector v0, Vector v1) => new(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
     }
     class Program
     {
