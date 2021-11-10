@@ -46,20 +46,23 @@ namespace SharpEngine
 
         private static Vector[] vertices =
         {
-            new (-1f, -.5f),
-            new (0f, -.5f),
-            new (-.5f, .5f),
+            // new (-1f, -.5f),
+            // new (0f, -.5f),
+            // new (-.5f, .5f),
+            new (-.1f, -.1f),
+            new (.1f, -.1f),
+            new (0f, .1f),
+            
             new (0f, -.5f),
             new (1f, -.5f),
             new (.5f, .5f)
         };
 
         private const int VertexSize = 3;
-
-        // private static uint[] elements = new uint[6] { 0, 1, 2, 2, 3, 0 };
-
-        private static int uniTrans;
-        private static Stopwatch timer;
+        
+        // stuff for rotation
+        // private static int uniTrans;
+        // private static Stopwatch timer;
 
         static void Main(string[] args)
         {
@@ -88,7 +91,7 @@ namespace SharpEngine
 
                 // MoveToRight();
                 // MoveDown();
-                ShrinkTriangle();
+                // ShrinkTriangle();
                 // ScaleUpTriangle();
 
                 UpdateTriangleBuffer(vertices);
@@ -96,22 +99,22 @@ namespace SharpEngine
             Glfw.Terminate();
         }
 
-        private static unsafe void RotateTriangle(float deltaTime)
-        {
-            var trans = new mat4(1f);
-            var tmp = new vec3(0, 0, 1f);
-            trans = glm.rotate(trans, deltaTime * glm.radians(180f), tmp);
-            var test = trans.to_array();
-
-            fixed (float* t = new float[test.Length])
-            {
-                for (int i = 0; i < test.Length; i++)
-                {
-                    t[i] = test[i];
-                }
-                glUniformMatrix4fv(uniTrans, 1, false, t);
-            }
-        }
+        // private static unsafe void RotateTriangle(float deltaTime)
+        // {
+        //     var trans = new mat4(1f);
+        //     var tmp = new vec3(0, 0, 1f);
+        //     trans = glm.rotate(trans, deltaTime * glm.radians(180f), tmp);
+        //     var test = trans.to_array();
+        //
+        //     fixed (float* t = new float[test.Length])
+        //     {
+        //         for (int i = 0; i < test.Length; i++)
+        //         {
+        //             t[i] = test[i];
+        //         }
+        //         glUniformMatrix4fv(uniTrans, 1, false, t);
+        //     }
+        // }
 
         // private static unsafe void Draw2TrianglesWithArrayElementBuffer()
         // {
