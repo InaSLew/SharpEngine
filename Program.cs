@@ -14,9 +14,13 @@ namespace SharpEngine
             // -.5f, -.5f, 0f, 1f, 0, 0,
             // .5f, -.5f, 0f, 0, 1f, 0,
             // 0f, .5f, 0f, 0, 0, 1
-            -.5f, -.5f, 0f,
-            .5f, -.5f, 0f,
-            0f, .5f, 0f
+            -1f, -.5f, 0f,
+            0f, -.5f, 0f,
+            -.5f, .5f, 0f,
+
+            0f, -.5f, 0f,
+            1f, -.5f, 0f,
+            .5f, .5f, 0f
             // -0.5f,  0.5f, 0, 1.0f, 0.0f, 0.0f, // Top-left
             // 0.5f,  0.5f, 0, 0.0f, 1.0f, 0.0f, // Top-right
             // 0.5f, -0.5f, 0, 0.0f, 0.0f, 1.0f, // Bottom-right
@@ -52,7 +56,7 @@ namespace SharpEngine
                 // RotateTriangle(deltaTime);
                 
                 
-                glDrawArrays(GL_TRIANGLES, 0, 3);
+                glDrawArrays(GL_TRIANGLES, 0, 6);
                 // Draw2TrianglesWithArrayElementBuffer();
                 glFlush();
 
