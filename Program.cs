@@ -94,6 +94,7 @@ namespace SharpEngine
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
+                GoToTopRight();
 
                 UpdateTriangleBuffer(vertices);
             }
@@ -154,6 +155,15 @@ namespace SharpEngine
             for (var i = 0; i < vertices.Length; i++)
             {
                 vertices[i].x += 0.001f;
+            }
+        }
+        
+        private static void GoToTopRight()
+        {
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].x += 0.00001f;
+                vertices[i].y += 0.00001f;
             }
         }
 
