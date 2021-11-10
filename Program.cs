@@ -53,6 +53,8 @@ namespace SharpEngine
             new Vector(.5f, .5f)
         };
 
+        private const int VertexSize = 3;
+
         // private static uint[] elements = new uint[6] { 0, 1, 2, 2, 3, 0 };
 
         private static int uniTrans;
@@ -180,7 +182,7 @@ namespace SharpEngine
             // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
             UpdateTriangleBuffer(vertices);
             // UpdateElementBuffer();
-            glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
+            glVertexAttribPointer(0, VertexSize, GL_FLOAT, false, sizeof(Vector), NULL);
             glEnableVertexAttribArray(0);
         }
 
