@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using GLFW;
 using GlmNet;
@@ -28,6 +29,7 @@ namespace SharpEngine
         public static Vector operator *(Vector v, float f) => new (v.x * f, v.y * f, v.z * f);
         public static Vector operator +(Vector v0, Vector v1) => new(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
     }
+    
     class Program
     {
         // private static float[] vertices =
@@ -64,6 +66,8 @@ namespace SharpEngine
         // stuff for rotation
         // private static int uniTrans;
         // private static Stopwatch timer;
+        private const int Width = 1024;
+        private const int Height = 768;
 
         static void Main(string[] args)
         {
@@ -95,11 +99,19 @@ namespace SharpEngine
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
                 GoToTopRight();
-
+                // ReverseIfTouchEdge();
                 UpdateTriangleBuffer(vertices);
             }
             Glfw.Terminate();
         }
+
+        // private static void ReverseIfTouchEdge()
+        // {
+        //     for (var i = 0; i < vertices.Length; i++)
+        //     {
+        //         if (vertices[i].x > 1f) vertices[i] = vertices[i] + (-0.0001f, 0f, 0f);
+        //     }
+        // }
 
         // private static unsafe void RotateTriangle(float deltaTime)
         // {
@@ -162,8 +174,7 @@ namespace SharpEngine
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i].x += 0.00001f;
-                vertices[i].y += 0.00001f;
+                vertices[i] += new Vector(0.0001f, 0.0001f);
             }
         }
 
