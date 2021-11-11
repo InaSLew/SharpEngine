@@ -11,6 +11,7 @@ namespace SharpEngine
         {
             this.vertices = vertices;
             CurrentScale = 1f;
+            LoadVerticesIntoBuffer();
         }
 
         public void Scale(float multiplier)
@@ -78,7 +79,7 @@ namespace SharpEngine
             }
         }
 
-        public unsafe void LoadVerticesIntoBuffer()
+        private unsafe void LoadVerticesIntoBuffer()
         {
             var vertexArray = glGenVertexArray();
             var vertexBuffer = glGenBuffer();

@@ -20,7 +20,7 @@ namespace SharpEngine
         static void Main(string[] args)
         {
             var window = CreateWindow();
-            triangle.LoadVerticesIntoBuffer();
+            // triangle.LoadVerticesIntoBuffer();
             CreateShaderProgram();
             
             var direction = new Vector(0.0003f, 0.0003f);
