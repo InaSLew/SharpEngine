@@ -8,8 +8,28 @@ using static OpenGL.Gl;
 
 namespace SharpEngine
 {
-    
-    
+    public struct Color
+    {
+        public float R, G, B;
+
+        public Color(float r, float g, float b)
+        {
+            R = r;
+            G = g;
+            B = b;
+        }
+    }
+    public struct Vertex
+    {
+        public Vector Position;
+        public Color Color;
+
+        public Vertex(Vector position, Color color) {
+            Position = position;
+            Color = color;
+        }
+    }
+
     class Program
     {
         // private static float[] vertices =
@@ -27,27 +47,31 @@ namespace SharpEngine
         //     // -0.5f, -0.5f, 0, 1.0f, 1.0f, 1.0f, // Bottom-left
         // };
 
-        private static Vector[] vertices =
-        {
-            // new (-.1f, -.1f),
-            // new (.1f, -.1f),
-            // new (0f, .1f),
-            new (.4f, .4f),
-            new (.6f, .4f),
-            new (.5f, .6f)
+        // private static Vertex[] vertices =
+        // {
+        //     // new (-.1f, -.1f),
+        //     // new (.1f, -.1f),
+        //     // new (0f, .1f),
+        //     new Vertex(new Vector (.4f, .4f)),
+        //     new Vertex(new Vector(.6f, .4f)),
+        //     new Vertex(new Vector(.6f, .4f))
+        // };
+        static Vertex[] vertices = new Vertex[] {
+            new Vertex(new Vector(0f, 0f), new Color(1.0f, 0.0f, 0.0f)),
+            new Vertex(new Vector(1f, 0f), new Color(0.0f, 1.0f, 0.0f)),
+            new Vertex(new Vector(0f, 1f), new Color(0.0f, 0.0f, 1.0f))
         };
 
         private const int VertexSize = 3;
         private const int Width = 1024;
         private const int Height = 768;
-        private static bool hasTouchRight;
-        private static bool hasTouchTop;
 
         static void Main(string[] args)
         {
             var window = CreateWindow();
-            LoadTriangleIntoBuffer(vertices);
+            LoadTriangleIntoBuffer();
             var program = CreateShaderProgram();
+            test(program);
             
             var direction = new Vector(0.0003f, 0.0003f);
             var multiplier = 0.999f;
@@ -62,30 +86,30 @@ namespace SharpEngine
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
                 // gonna need sth else here if I remember correctly?
-                var min = vertices[0];
+                var min = vertices[0].Position;
                 for (var i = 0; i < vertices.Length; i++)
                 {
-                    min = Vector.Min(min, vertices[i]);
+                    min = Vector.Min(min, vertices[i].Position);
                 }
 
-                var max = vertices[0];
+                var max = vertices[0].Position;
                 for (var i = 0; i < vertices.Length; i++)
                 {
-                    max = Vector.Max(max, vertices[i]);
+                    max = Vector.Max(max, vertices[i].Position);
                 }
 
                 var center = (min + max) / 2;
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    vertices[i] -= center;
+                    vertices[i].Position -= center;
                 }
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    vertices[i] *= multiplier;
+                    vertices[i].Position *= multiplier;
                 }
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    vertices[i] += center;
+                    vertices[i].Position += center;
                 }
 
                 scale *= multiplier;
@@ -98,12 +122,12 @@ namespace SharpEngine
 
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    vertices[i] += direction;
+                    vertices[i].Position += direction;
                 }
 
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    if ((vertices[i].x >= 1 && direction.x > 0) || (vertices[i].x <= -1 && direction.x < 0))
+                    if ((vertices[i].Position.x >= 1 && direction.x > 0) || (vertices[i].Position.x <= -1 && direction.x < 0))
                     {
                         direction *= -1;
                         break;
@@ -112,7 +136,7 @@ namespace SharpEngine
                 
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    if ((vertices[i].y >= 1 && direction.y > 0) || (vertices[i].y <= -1 && direction.y < 0))
+                    if ((vertices[i].Position.y >= 1 && direction.y > 0) || (vertices[i].Position.y <= -1 && direction.y < 0))
                     {
                         direction *= -1;
                         break;
@@ -158,7 +182,7 @@ namespace SharpEngine
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i] *= 1.00009f;
+                vertices[i].Position *= 1.00009f;
             }
         }
         
@@ -166,7 +190,7 @@ namespace SharpEngine
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i] *= 0.9999f;
+                vertices[i].Position *= 0.9999f;
             }
         }
 
@@ -174,7 +198,7 @@ namespace SharpEngine
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i].y -= 0.001f;
+                vertices[i].Position.y -= 0.001f;
             }
         }
 
@@ -182,7 +206,7 @@ namespace SharpEngine
         {
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i].x += 0.001f;
+                vertices[i].Position.x += 0.001f;
             }
         }
         
@@ -193,14 +217,14 @@ namespace SharpEngine
             for (var i = 0; i < vertices.Length; i++)
             {
                 // vertices[i] += new Vector(hasTouchRight ? -0.0005f : 0.0005f, hasTouchTop ? -0.0005f : 0.0005f);
-                vertices[i] += direction;
+                vertices[i].Position += direction;
             }
 
             for (var i = 0; i < vertices.Length; i++)
             {
-                if (vertices[i].x >= 1f || vertices[i].x <= -1f)
+                if (vertices[i].Position.x >= 1f || vertices[i].Position.x <= -1f)
                 {
-                    vertices[i] += direction * -1;
+                    vertices[i].Position += direction * -1;
                 }
             }
             // if (vertices.Any(v => v.x > 1f)) hasTouchRight = true;
@@ -228,7 +252,7 @@ namespace SharpEngine
             return window;
         }
         
-        private static unsafe void LoadTriangleIntoBuffer(Vector[] vertices)
+        private static unsafe void LoadTriangleIntoBuffer()
         {
             // Load vertices into buffer
             var vertexArray = glGenVertexArray();
@@ -246,14 +270,12 @@ namespace SharpEngine
         private static unsafe void test(uint program)
         {
             var posAttrib = (uint)glGetAttribLocation(program, "pos");
-            glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 6 * sizeof(float), NULL);
+            glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 1 * sizeof(Vertex), NULL);
             glEnableVertexAttribArray(posAttrib);
 
-            var colAttrib = (uint) glGetAttribLocation(program, "color");
-            glVertexAttribPointer(colAttrib, 3, GL_FLOAT, false, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+            var colAttrib = (uint)glGetAttribLocation(program, "color");
+            glVertexAttribPointer(colAttrib, 3, GL_FLOAT, false, 1 * sizeof(Vertex), (void*)(3 * sizeof(float)));
             glEnableVertexAttribArray(colAttrib);
-
-            // uniTrans = glGetUniformLocation(program, "trans");
         }
         
         private static uint CreateShaderProgram()
@@ -279,9 +301,9 @@ namespace SharpEngine
 
         private static unsafe void UpdateTriangleBuffer()
         {
-            fixed (Vector* vertex = &vertices[0])
+            fixed (Vertex* vertex = &vertices[0])
             {
-                glBufferData(GL_ARRAY_BUFFER, sizeof(Vector) * vertices.Length, vertex, GL_STATIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.Length, vertex, GL_STATIC_DRAW);
             }
         }
     }
