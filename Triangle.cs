@@ -14,8 +14,8 @@ namespace SharpEngine
 
         public void Scale(float multiplier)
         {
-            
-            var center = (GetMinBound() + GetMaxBound()) / 2;
+
+            var center = GetTriangleCenter();
             
             // Move the whole triangle to center in preparation for scaling
             for (int i = 0; i < vertices.Length; i++)
@@ -36,6 +36,8 @@ namespace SharpEngine
             
             CurrentScale *= multiplier;
         }
+
+        private Vector GetTriangleCenter() => (GetMinBound() + GetMaxBound()) / 2;
 
         public Vector GetMaxBound()
         {
