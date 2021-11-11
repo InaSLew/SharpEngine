@@ -68,34 +68,20 @@ namespace SharpEngine
         private static bool hasTouchRight;
         private static bool hasTouchTop;
 
-        private static Stopwatch timer;
-
         static void Main(string[] args)
         {
             var window = CreateWindow();
             LoadTriangleIntoBuffer(vertices);
             var program = CreateShaderProgram();
             
-            // Rendering loop
-            Render(window);
-
-            Glfw.Terminate();
-        }
-
-        private static void Render(Window window)
-        {
-            timer = Stopwatch.StartNew();
             var direction = new Vector(0.0003f, 0f);
             var multiplier = 0.999f;
             var scale = 1f;
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
-                glClearColor(0,0,0, 1);
-                glClear(GL_COLOR_BUFFER_BIT);
-                glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
-                glFlush();
-
+                ClearScreen();
+                Render();
                 // MoveToRight();
                 // MoveDown();
                 // ShrinkTriangle();
@@ -134,9 +120,25 @@ namespace SharpEngine
                 if (scale >= 1f) {
                     multiplier = 0.999f;
                 }
-                // GoTopRightAndBounceWhenHitBorder(direction);
+                
+                // placeholder for moving
+                
                 UpdateTriangleBuffer();
             }
+
+            Glfw.Terminate();
+        }
+
+        private static void ClearScreen()
+        {
+            glClearColor(0,0,0, 1);
+            glClear(GL_COLOR_BUFFER_BIT);;
+        }
+
+        private static void Render()
+        {
+            glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
+            glFlush();
         }
 
         // private static unsafe void RotateTriangle(float deltaTime)
