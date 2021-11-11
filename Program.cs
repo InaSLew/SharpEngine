@@ -191,8 +191,10 @@ namespace SharpEngine
             // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
             UpdateTriangleBuffer();
             // UpdateElementBuffer();
-            glVertexAttribPointer(0, VertexSize, GL_FLOAT, false, sizeof(Vector), NULL);
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(Vertex), NULL);
+            glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Vertex), (void*)(sizeof(Vector)));
             glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
         }
 
         private static unsafe void test(uint program)

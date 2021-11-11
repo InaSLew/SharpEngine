@@ -1,10 +1,10 @@
 ﻿#version 330 core
 
-in vec3 Color;
+in vec4 vertexColor;
 
 out vec4 result;
 
 void main()
 {
-    result = vec4(Color, 1);
+    result = vec4(vertexColor);
 }
