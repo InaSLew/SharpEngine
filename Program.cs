@@ -1,35 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using GLFW;
 using OpenGL;
 using static OpenGL.Gl;
 
 namespace SharpEngine
 {
-    public struct Color
-    {
-        public float R, G, B;
-
-        public Color(float r, float g, float b)
-        {
-            R = r;
-            G = g;
-            B = b;
-        }
-    }
-    public struct Vertex
-    {
-        public Vector Position;
-        public Color Color;
-
-        public Vertex(Vector position, Color color) {
-            Position = position;
-            Color = color;
-        }
-    }
-
     class Program
     {
         // private static float[] vertices =
@@ -57,9 +32,9 @@ namespace SharpEngine
         //     new Vertex(new Vector(.6f, .4f))
         // };
         static Vertex[] vertices = new Vertex[] {
-            new Vertex(new Vector(0f, 0f), new Color(1.0f, 0.0f, 0.0f)),
-            new Vertex(new Vector(1f, 0f), new Color(0.0f, 1.0f, 0.0f)),
-            new Vertex(new Vector(0f, 1f), new Color(0.0f, 0.0f, 1.0f))
+            new Vertex(new Vector(0f, 0f), Color.Red),
+            new Vertex(new Vector(1f, 0f), Color.Green),
+            new Vertex(new Vector(0f, 1f), Color.Blue)
         };
 
         private const int VertexSize = 3;
