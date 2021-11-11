@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="glfw-net" Version="3.3.1" />
-    <PackageReference Include="GlmNet" Version="0.7.0" />
   </ItemGroup>
 
   <ItemGroup>
