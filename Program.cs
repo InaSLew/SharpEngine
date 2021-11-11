@@ -21,8 +21,7 @@ namespace SharpEngine
         {
             var window = CreateWindow();
             LoadTriangleIntoBuffer();
-            var program = CreateShaderProgram();
-            test(program);
+            CreateShaderProgram();
             
             var direction = new Vector(0.0003f, 0.0003f);
             var multiplier = 0.999f;
@@ -112,23 +111,6 @@ namespace SharpEngine
             glFlush();
         }
 
-        // private static unsafe void RotateTriangle(float deltaTime)
-        // {
-        //     var trans = new mat4(1f);
-        //     var tmp = new vec3(0, 0, 1f);
-        //     trans = glm.rotate(trans, deltaTime * glm.radians(180f), tmp);
-        //     var test = trans.to_array();
-        //
-        //     fixed (float* t = new float[test.Length])
-        //     {
-        //         for (int i = 0; i < test.Length; i++)
-        //         {
-        //             t[i] = test[i];
-        //         }
-        //         glUniformMatrix4fv(uniTrans, 1, false, t);
-        //     }
-        // }
-
         private static void ScaleUpTriangle()
         {
             for (var i = 0; i < vertices.Length; i++)
@@ -185,30 +167,16 @@ namespace SharpEngine
             // Load vertices into buffer
             var vertexArray = glGenVertexArray();
             var vertexBuffer = glGenBuffer();
-            // var elementBuffer = glGenBuffer();
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-            // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
             UpdateTriangleBuffer();
-            // UpdateElementBuffer();
             glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(Vertex), NULL);
             glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Vertex), (void*)(sizeof(Vector)));
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
         }
-
-        private static unsafe void test(uint program)
-        {
-            var posAttrib = (uint)glGetAttribLocation(program, "pos");
-            glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 1 * sizeof(Vertex), NULL);
-            glEnableVertexAttribArray(posAttrib);
-
-            var colAttrib = (uint)glGetAttribLocation(program, "color");
-            glVertexAttribPointer(colAttrib, 3, GL_FLOAT, false, 1 * sizeof(Vertex), (void*)(3 * sizeof(float)));
-            glEnableVertexAttribArray(colAttrib);
-        }
         
-        private static uint CreateShaderProgram()
+        private static void CreateShaderProgram()
         {
             // create vertex shader
             var vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -226,7 +194,6 @@ namespace SharpEngine
             glAttachShader(program, fragmentShader);
             glLinkProgram(program);
             glUseProgram(program);
-            return program;
         }
 
         private static unsafe void UpdateTriangleBuffer()
