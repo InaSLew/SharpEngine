@@ -137,7 +137,7 @@ namespace SharpEngine
                 
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    if (vertices[i].y >= 1 || vertices[i].y <= -1)
+                    if ((vertices[i].y >= 1 && direction.y > 0) || (vertices[i].y <= -1 && direction.y < 0))
                     {
                         direction *= -1;
                         break;
