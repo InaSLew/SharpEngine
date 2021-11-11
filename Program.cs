@@ -7,34 +7,10 @@ namespace SharpEngine
 {
     class Program
     {
-        // private static float[] vertices =
-        // {
-        //     -1f, -.5f, 0f, 
-        //     0f, -.5f, 0f, 
-        //     -.5f, .5f, 0f, 
-        //
-        //     0f, -.5f, 0f, 
-        //     1f, -.5f, 0f, 
-        //     .5f, .5f, 0f 
-        //     // -0.5f,  0.5f, 0, 1.0f, 0.0f, 0.0f, // Top-left
-        //     // 0.5f,  0.5f, 0, 0.0f, 1.0f, 0.0f, // Top-right
-        //     // 0.5f, -0.5f, 0, 0.0f, 0.0f, 1.0f, // Bottom-right
-        //     // -0.5f, -0.5f, 0, 1.0f, 1.0f, 1.0f, // Bottom-left
-        // };
-
-        // private static Vertex[] vertices =
-        // {
-        //     // new (-.1f, -.1f),
-        //     // new (.1f, -.1f),
-        //     // new (0f, .1f),
-        //     new Vertex(new Vector (.4f, .4f)),
-        //     new Vertex(new Vector(.6f, .4f)),
-        //     new Vertex(new Vector(.6f, .4f))
-        // };
         static Vertex[] vertices = new Vertex[] {
-            new Vertex(new Vector(0f, 0f), Color.Red),
-            new Vertex(new Vector(1f, 0f), Color.Green),
-            new Vertex(new Vector(0f, 1f), Color.Blue)
+            new (new Vector(0f, 0f), Color.Red),
+            new (new Vector(1f, 0f), Color.Green),
+            new (new Vector(0f, 1f), Color.Blue)
         };
 
         private const int VertexSize = 3;
@@ -183,29 +159,6 @@ namespace SharpEngine
             {
                 vertices[i].Position.x += 0.001f;
             }
-        }
-        
-        private static void GoTopRightAndBounceWhenHitBorder(Vector direction)
-        {
-            // Refactor so it uses multiply with -1 to revert direction
-            // 
-            for (var i = 0; i < vertices.Length; i++)
-            {
-                // vertices[i] += new Vector(hasTouchRight ? -0.0005f : 0.0005f, hasTouchTop ? -0.0005f : 0.0005f);
-                vertices[i].Position += direction;
-            }
-
-            for (var i = 0; i < vertices.Length; i++)
-            {
-                if (vertices[i].Position.x >= 1f || vertices[i].Position.x <= -1f)
-                {
-                    vertices[i].Position += direction * -1;
-                }
-            }
-            // if (vertices.Any(v => v.x > 1f)) hasTouchRight = true;
-            // if (vertices.Any(v => v.x < -1f)) hasTouchRight = false;
-            // if (vertices.Any(v => v.y > 1f)) hasTouchTop = true;
-            // if (vertices.Any(v => v.y < -1f)) hasTouchTop = false;
         }
 
         private static Window CreateWindow()
