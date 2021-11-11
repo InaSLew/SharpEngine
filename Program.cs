@@ -118,11 +118,11 @@ namespace SharpEngine
         private static void CreateShaderProgram()
         {
             var vertexShader = glCreateShader(GL_VERTEX_SHADER);
-            glShaderSource(vertexShader, File.ReadAllText("shaders/red-triangle.vert"));
+            glShaderSource(vertexShader, File.ReadAllText("shaders/triangle.vert"));
             glCompileShader(vertexShader);
             
             var fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(fragmentShader, File.ReadAllText("shaders/red-triangle.frag"));
+            glShaderSource(fragmentShader, File.ReadAllText("shaders/triangle.frag"));
             glCompileShader(fragmentShader);
             
             var program = glCreateProgram();
