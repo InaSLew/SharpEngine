@@ -1,4 +1,5 @@
-﻿using static OpenGL.Gl;
+﻿using System.Runtime.InteropServices;
+using static OpenGL.Gl;
 
 namespace SharpEngine
 {
@@ -75,6 +76,18 @@ namespace SharpEngine
             {
                 glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.Length, vertex, GL_STATIC_DRAW);
             }
+        }
+
+        public unsafe void LoadVerticesIntoBuffer()
+        {
+            var vertexArray = glGenVertexArray();
+            var vertexBuffer = glGenBuffer();
+            glBindVertexArray(vertexArray);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(Vertex), Marshal.OffsetOf(typeof(Vertex), nameof(Vertex.Position)));
+            glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Vertex), Marshal.OffsetOf(typeof(Vertex), nameof(Vertex.Color)));
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
         }
     }
 }
