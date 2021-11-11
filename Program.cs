@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Runtime.InteropServices;
 using GLFW;
 using static OpenGL.Gl;
 
@@ -20,7 +19,6 @@ namespace SharpEngine
         static void Main(string[] args)
         {
             var window = CreateWindow();
-            // triangle.LoadVerticesIntoBuffer();
             CreateShaderProgram();
             
             var direction = new Vector(0.0003f, 0.0003f);
@@ -63,38 +61,6 @@ namespace SharpEngine
             triangle.Render();
             glFlush();
         }
-
-        // private static void ScaleUpTriangle()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         vertices[i].Position *= 1.00009f;
-        //     }
-        // }
-        //
-        // private static void ShrinkTriangle()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         vertices[i].Position *= 0.9999f;
-        //     }
-        // }
-        //
-        // private static void MoveDown()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         vertices[i].Position.y -= 0.001f;
-        //     }
-        // }
-        //
-        // private static void MoveToRight()
-        // {
-        //     for (var i = 0; i < vertices.Length; i++)
-        //     {
-        //         vertices[i].Position.x += 0.001f;
-        //     }
-        // }
 
         private static Window CreateWindow()
         {
