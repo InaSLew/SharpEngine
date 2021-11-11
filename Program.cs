@@ -74,7 +74,7 @@ namespace SharpEngine
             LoadTriangleIntoBuffer(vertices);
             var program = CreateShaderProgram();
             
-            var direction = new Vector(0.0003f, 0f);
+            var direction = new Vector(0.0003f, 0.0003f);
             var multiplier = 0.999f;
             var scale = 1f;
             while (!Glfw.WindowShouldClose(window))
@@ -120,8 +120,29 @@ namespace SharpEngine
                 if (scale >= 1f) {
                     multiplier = 0.999f;
                 }
+
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i] += direction;
+                }
+
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    if ((vertices[i].x >= 1 && direction.x > 0) || (vertices[i].x <= -1 && direction.x < 0))
+                    {
+                        direction *= -1;
+                        break;
+                    }
+                }
                 
-                // placeholder for moving
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    if (vertices[i].y >= 1 || vertices[i].y <= -1)
+                    {
+                        direction *= -1;
+                        break;
+                    }
+                }
                 
                 UpdateTriangleBuffer();
             }
