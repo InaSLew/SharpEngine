@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using GLFW;
 using GlmNet;
@@ -26,7 +28,11 @@ namespace SharpEngine
         }
 
         public static Vector operator *(Vector v, float f) => new (v.x * f, v.y * f, v.z * f);
+        public static Vector operator /(Vector v, float f) => new (v.x / f, v.y / f, v.z / f);
         public static Vector operator +(Vector v0, Vector v1) => new(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
+        public static Vector operator -(Vector v0, Vector v1) => new(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
+        public static Vector Max(Vector a, Vector b) => new (MathF.Max(a.x, b.x),MathF.Max(a.y, b.y));
+        public static Vector Min(Vector a, Vector b) => new (MathF.Min(a.x, b.x),MathF.Min(a.y, b.y));
     }
     
     class Program
@@ -48,9 +54,9 @@ namespace SharpEngine
 
         private static Vector[] vertices =
         {
-            new (-.1f, -.1f),
-            new (.1f, -.1f),
-            new (0f, .1f),
+            // new (-.1f, -.1f),
+            // new (.1f, -.1f),
+            // new (0f, .1f),
             new (.4f, .4f),
             new (.6f, .4f),
             new (.5f, .6f)
@@ -62,19 +68,26 @@ namespace SharpEngine
         private static bool hasTouchRight;
         private static bool hasTouchTop;
 
+        private static Stopwatch timer;
+
         static void Main(string[] args)
         {
             var window = CreateWindow();
             LoadTriangleIntoBuffer(vertices);
             var program = CreateShaderProgram();
-
+            
             // Rendering loop
             Render(window);
+
             Glfw.Terminate();
         }
 
         private static void Render(Window window)
         {
+            timer = Stopwatch.StartNew();
+            var direction = new Vector(0.0003f, 0f);
+            var multiplier = 0.999f;
+            var scale = 1f;
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
@@ -87,7 +100,41 @@ namespace SharpEngine
                 // MoveDown();
                 // ShrinkTriangle();
                 // ScaleUpTriangle();
-                GoTopRightAndBounceWhenHitBorder();
+                // gonna need sth else here if I remember correctly?
+                var min = vertices[0];
+                for (var i = 0; i < vertices.Length; i++)
+                {
+                    min = Vector.Min(min, vertices[i]);
+                }
+
+                var max = vertices[0];
+                for (var i = 0; i < vertices.Length; i++)
+                {
+                    max = Vector.Max(max, vertices[i]);
+                }
+
+                var center = (min + max) / 2;
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i] -= center;
+                }
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i] *= multiplier;
+                }
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i] += center;
+                }
+
+                scale *= multiplier;
+                if (scale <= 0.5f) {
+                    multiplier = 1.001f;
+                }
+                if (scale >= 1f) {
+                    multiplier = 0.999f;
+                }
+                // GoTopRightAndBounceWhenHitBorder(direction);
                 UpdateTriangleBuffer();
             }
         }
@@ -141,17 +188,27 @@ namespace SharpEngine
             }
         }
         
-        private static void GoTopRightAndBounceWhenHitBorder()
+        private static void GoTopRightAndBounceWhenHitBorder(Vector direction)
         {
+            // Refactor so it uses multiply with -1 to revert direction
+            // 
             for (var i = 0; i < vertices.Length; i++)
             {
-                vertices[i] += new Vector(hasTouchRight ? -0.0005f : 0.0005f, hasTouchTop ? -0.0005f : 0.0005f);
+                // vertices[i] += new Vector(hasTouchRight ? -0.0005f : 0.0005f, hasTouchTop ? -0.0005f : 0.0005f);
+                vertices[i] += direction;
             }
 
-            if (vertices.Any(v => v.x > 1f)) hasTouchRight = true;
-            if (vertices.Any(v => v.x < -1f)) hasTouchRight = false;
-            if (vertices.Any(v => v.y > 1f)) hasTouchTop = true;
-            if (vertices.Any(v => v.y < -1f)) hasTouchTop = false;
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                if (vertices[i].x >= 1f || vertices[i].x <= -1f)
+                {
+                    vertices[i] += direction * -1;
+                }
+            }
+            // if (vertices.Any(v => v.x > 1f)) hasTouchRight = true;
+            // if (vertices.Any(v => v.x < -1f)) hasTouchRight = false;
+            // if (vertices.Any(v => v.y > 1f)) hasTouchTop = true;
+            // if (vertices.Any(v => v.y < -1f)) hasTouchTop = false;
         }
 
         private static Window CreateWindow()
