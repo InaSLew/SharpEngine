@@ -8,9 +8,11 @@ namespace SharpEngine
     {
         private Vertex[] vertices;
         public float CurrentScale { get; private set; }
-        public Triangle(Vertex[] vertices)
+        public Vector moveDirection;
+        public Triangle(Vertex[] vertices, Vector moveDirection)
         {
             this.vertices = vertices;
+            this.moveDirection = moveDirection;
             CurrentScale = 1f;
             LoadVerticesIntoBuffer();
         }
@@ -53,11 +55,24 @@ namespace SharpEngine
             return min;
         }
 
-        public void Move(Vector direction)
+        public void Move(Vector? direction = null)
         {
             for (int i = 0; i < vertices.Length; i++)
             {
-                vertices[i].Position += direction;
+                vertices[i].Position += direction ?? moveDirection;
+            }
+            BounceIfTouchEdge();
+        }
+
+        private void BounceIfTouchEdge()
+        {
+            if (GetMaxBound().x >= 1 && moveDirection.x > 0 || GetMinBound().x <= -1 && moveDirection.x < 0)
+            {
+                moveDirection.x *= -1;
+            }
+            if (GetMaxBound().y >= 1 && moveDirection.y > 0 || GetMinBound().y <= -1 && moveDirection.y < 0)
+            {
+                moveDirection.y *= -1;
             }
         }
 

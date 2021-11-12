@@ -16,14 +16,14 @@ namespace SharpEngine
             new Vertex(new Vector(.2f, -.07f), Color.Red),
             new Vertex(new Vector(.4f, -.07f), Color.Green),
             new Vertex(new Vector(.3f, .123f), Color.Blue)
-        });
+        }, new Vector(0.0003f, 0.0003f));
 
-        static Triangle triangle2 = new Triangle(new Vertex[]
-        {
-            new (new Vector(-.1f, -.07f), Color.Red),
-            new (new Vector(.1f, -.07f), Color.Green),
-            new (new Vector(.0f, .125f), Color.Blue)
-        });
+        // static Triangle triangle2 = new Triangle(new Vertex[]
+        // {
+        //     new (new Vector(-.1f, -.07f), Color.Red),
+        //     new (new Vector(.1f, -.07f), Color.Green),
+        //     new (new Vector(.0f, .125f), Color.Blue)
+        // });
 
         private const int Width = 1024;
         private const int Height = 768;
@@ -33,8 +33,8 @@ namespace SharpEngine
             var window = CreateWindow();
             CreateShaderProgram();
             
-            var direction = new Vector(0.0003f, 0.0003f);
-            var direction2 = new Vector(-0.0003f, -0.0003f);
+            // var direction = new Vector(0.0003f, 0.0003f);
+            // var direction2 = new Vector(-0.0003f, -0.0003f);
             var multiplier = 0.999f;
             var multiplier2 = 0.985f;
             while (!Glfw.WindowShouldClose(window))
@@ -51,37 +51,37 @@ namespace SharpEngine
                 {
                     multiplier = 0.9999f;
                 }
-                triangle.Move(direction);
-                if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)
-                {
-                    direction.x *= -1;
-                }
-                if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0)
-                {
-                    direction.y *= -1;
-                }
+                triangle.Move();
+                // if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)
+                // {
+                //     direction.x *= -1;
+                // }
+                // if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0)
+                // {
+                //     direction.y *= -1;
+                // }
 
                 triangle.Rotate(.1f);
 
-                triangle2.Scale(multiplier2);
-                if (triangle2.CurrentScale <= 0.5f)
-                {
-                    multiplier2 = 1.001f;
-                }
-                if (triangle2.CurrentScale >= 1f)
-                {
-                    multiplier2 = 0.999f;
-                }
-                triangle2.Move(direction2);
-                if (triangle2.GetMaxBound().x >= 1 && direction2.x > 0 || triangle2.GetMinBound().x <= -1 && direction2.x < 0)
-                {
-                    direction2.x *= -1;
-                }
-                if (triangle2.GetMaxBound().y >= 1 && direction2.y > 0 || triangle2.GetMinBound().y <= -1 && direction2.y < 0)
-                {
-                    direction2.y *= -1;
-                }
-                triangle2.Rotate(-.1f);
+                // triangle2.Scale(multiplier2);
+                // if (triangle2.CurrentScale <= 0.5f)
+                // {
+                //     multiplier2 = 1.001f;
+                // }
+                // if (triangle2.CurrentScale >= 1f)
+                // {
+                //     multiplier2 = 0.999f;
+                // }
+                // triangle2.Move(direction);
+                // if (triangle2.GetMaxBound().x >= 1 && direction2.x > 0 || triangle2.GetMinBound().x <= -1 && direction2.x < 0)
+                // {
+                //     direction2.x *= -1;
+                // }
+                // if (triangle2.GetMaxBound().y >= 1 && direction2.y > 0 || triangle2.GetMinBound().y <= -1 && direction2.y < 0)
+                // {
+                //     direction2.y *= -1;
+                // }
+                // triangle2.Rotate(-.1f);
             }
 
             Glfw.Terminate();
@@ -96,7 +96,7 @@ namespace SharpEngine
         private static void Render()
         {
             triangle.Render();
-            triangle2.Render();
+            // triangle2.Render();
             glFlush();
         }
 
