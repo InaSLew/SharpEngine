@@ -10,9 +10,6 @@ namespace SharpEngine
     {
         static Triangle triangle = new Triangle(new Vertex[]
         {
-            // new (new Vector(-1f, -.5f), Color.Red),
-            // new (new Vector(0f, -.5f), Color.Green),
-            // new (new Vector(-.5f, .5f), Color.Blue)
             new Vertex(new Vector(.2f, -.07f), Color.Red),
             new Vertex(new Vector(.4f, -.07f), Color.Green),
             new Vertex(new Vector(.3f, .123f), Color.Blue)
@@ -33,8 +30,6 @@ namespace SharpEngine
             var window = CreateWindow();
             CreateShaderProgram();
             
-            // var direction = new Vector(0.0003f, 0.0003f);
-            // var direction2 = new Vector(-0.0003f, -0.0003f);
             var multiplier = 0.999f;
             var multiplier2 = 0.985f;
             while (!Glfw.WindowShouldClose(window))
@@ -42,6 +37,7 @@ namespace SharpEngine
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
                 ClearScreen();
                 Render();
+                
                 triangle.Scale(multiplier);
                 if (triangle.CurrentScale <= 0.5f)
                 {
@@ -52,15 +48,6 @@ namespace SharpEngine
                     multiplier = 0.9999f;
                 }
                 triangle.Move();
-                // if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)
-                // {
-                //     direction.x *= -1;
-                // }
-                // if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0)
-                // {
-                //     direction.y *= -1;
-                // }
-
                 triangle.Rotate(.1f);
 
                 triangle2.Scale(multiplier2);
@@ -73,14 +60,6 @@ namespace SharpEngine
                     multiplier2 = 0.999f;
                 }
                 triangle2.Move();
-                // if (triangle2.GetMaxBound().x >= 1 && direction2.x > 0 || triangle2.GetMinBound().x <= -1 && direction2.x < 0)
-                // {
-                //     direction2.x *= -1;
-                // }
-                // if (triangle2.GetMaxBound().y >= 1 && direction2.y > 0 || triangle2.GetMinBound().y <= -1 && direction2.y < 0)
-                // {
-                //     direction2.y *= -1;
-                // }
                 triangle2.Rotate(-.08f);
             }
 
