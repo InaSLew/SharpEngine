@@ -13,14 +13,14 @@ namespace SharpEngine
             new Vertex(new Vector(.2f, -.07f), Color.Red),
             new Vertex(new Vector(.4f, -.07f), Color.Green),
             new Vertex(new Vector(.3f, .123f), Color.Blue)
-        }, new Vector(0.0003f, 0.0003f));
+        });
 
         static Triangle triangle2 = new (new Vertex[]
         {
             new (new Vector(-.1f, -.07f), Color.Red),
             new (new Vector(.1f, -.07f), Color.Green),
             new (new Vector(.0f, .125f), Color.Blue)
-        }, new Vector(-0.0003f, -0.0003f));
+        });
 
         private const int Width = 1024;
         private const int Height = 768;
@@ -32,6 +32,8 @@ namespace SharpEngine
             
             var multiplier = 0.999f;
             var multiplier2 = 0.985f;
+            triangle.SetMoveDirection(new Vector(0.0003f, 0.0003f));
+            triangle2.SetMoveDirection(new Vector(-0.0003f, -0.0003f));
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)

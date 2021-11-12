@@ -9,10 +9,9 @@ namespace SharpEngine
         private Vertex[] vertices;
         public float CurrentScale { get; private set; }
         public Vector moveDirection;
-        public Triangle(Vertex[] vertices, Vector moveDirection)
+        public Triangle(Vertex[] vertices)
         {
             this.vertices = vertices;
-            this.moveDirection = moveDirection;
             CurrentScale = 1f;
             LoadVerticesIntoBuffer();
         }
@@ -91,10 +90,6 @@ namespace SharpEngine
             var vertexBuffer = glGenBuffer();
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-            
-            // sth like this, gotta check the book again
-            // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, );
-            
             glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(Vertex), Marshal.OffsetOf(typeof(Vertex), nameof(Vertex.Position)));
             glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Vertex), Marshal.OffsetOf(typeof(Vertex), nameof(Vertex.Color)));
             glEnableVertexAttribArray(0);
@@ -117,5 +112,6 @@ namespace SharpEngine
         }
 
         private float GetRadians(float angle) => angle * (MathF.PI / 180f);
+        public void SetMoveDirection(Vector direction) => moveDirection = direction;
     }
 }
