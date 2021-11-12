@@ -6,11 +6,17 @@ namespace SharpEngine
 {
     class Program
     {
-        static Triangle triangle = new Triangle(new Vertex[] {
-            new (new Vector(0f, 0f), Color.Red),
-            new (new Vector(1f, 0f), Color.Green),
-            new (new Vector(0f, 1f), Color.Blue)
+        static Triangle triangle = new Triangle(new Vertex[]
+        {
+            new (new Vector(-1f, -.5f), Color.Red),
+            new (new Vector(0f, -.5f), Color.Green),
+            new (new Vector(-.5f, .5f), Color.Blue)
         });
+
+        // static Triangle triangle2 = new Triangle(new Vertex[]
+        // {
+        //     
+        // });
 
         private const int VertexSize = 3;
         private const int Width = 1024;

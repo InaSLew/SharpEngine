@@ -20,6 +20,8 @@ namespace SharpEngine
             var center = GetTriangleCenter();
             
             // Move the whole triangle to center in preparation for scaling
+            // Fix your Code to make it work with two separate Triangle instances.
+            // Hint: You need to save the return value of glGenVertexArray and then always call glBindVertexArray before Rendering the Triangle in its Render-Method. Important, you need to do that as the first thing in the Render-Method.
             for (int i = 0; i < vertices.Length; i++)
             {
                 Move(center * -1);
@@ -85,6 +87,10 @@ namespace SharpEngine
             var vertexBuffer = glGenBuffer();
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+            
+            // sth like this, gotta check the book again
+            // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, );
+            
             glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(Vertex), Marshal.OffsetOf(typeof(Vertex), nameof(Vertex.Position)));
             glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Vertex), Marshal.OffsetOf(typeof(Vertex), nameof(Vertex.Color)));
             glEnableVertexAttribArray(0);
