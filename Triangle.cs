@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using static OpenGL.Gl;
 
 namespace SharpEngine
@@ -16,32 +17,20 @@ namespace SharpEngine
 
         public void Scale(float multiplier)
         {
+            var center = GetCenter();
+            Move(center * -1);
 
-            var center = GetTriangleCenter();
-            
-            // Move the whole triangle to center in preparation for scaling
-            // Fix your Code to make it work with two separate Triangle instances.
-            // Hint: You need to save the return value of glGenVertexArray and then always call glBindVertexArray before Rendering the Triangle in its Render-Method. Important, you need to do that as the first thing in the Render-Method.
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                Move(center * -1);
-            }
-            
             for (int i = 0; i < vertices.Length; i++)
             {
                 vertices[i].Position *= multiplier;
             }
             
-            // Move it back to where it was
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                Move(center);
-            }
+            Move(center);
             
             CurrentScale *= multiplier;
         }
 
-        private Vector GetTriangleCenter() => (GetMinBound() + GetMaxBound()) / 2;
+        private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
 
         public Vector GetMaxBound()
         {
@@ -96,5 +85,22 @@ namespace SharpEngine
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
         }
+
+        public void Rotate(float degree)
+        {
+            var center = GetCenter();
+            Move(center * -1);
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                var currentAngle = MathF.Atan2(vertices[i].Position.y, vertices[i].Position.x);
+                var currentMagnitude = MathF.Sqrt(MathF.Pow(vertices[i].Position.x, 2) + MathF.Pow(vertices[i].Position.y, 2));
+                var newPositionX = MathF.Cos(currentAngle + GetRadians(degree)) * currentMagnitude;
+                var newPositionY = MathF.Sin(currentAngle + GetRadians(degree)) * currentMagnitude;
+                vertices[i].Position = new Vector(newPositionX, newPositionY, vertices[i].Position.z);
+            }
+            Move(center);
+        }
+
+        private float GetRadians(float angle) => angle * (MathF.PI / 180f);
     }
 }
