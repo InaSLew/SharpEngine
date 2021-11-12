@@ -8,19 +8,8 @@ namespace SharpEngine
 {
     class Program
     {
-        static Triangle triangle = new (new []
-        {
-            new Vertex(new Vector(.2f, -.07f), Color.Red),
-            new Vertex(new Vector(.4f, -.07f), Color.Green),
-            new Vertex(new Vector(.3f, .123f), Color.Blue)
-        });
-
-        static Triangle triangle2 = new (new Vertex[]
-        {
-            new (new Vector(-.1f, -.07f), Color.Red),
-            new (new Vector(.1f, -.07f), Color.Green),
-            new (new Vector(.0f, .125f), Color.Blue)
-        });
+        static Shape triangle = new Triangle(.2f, .2f, new Vector(0, 0));
+        static Shape triangle2 = new Triangle(.3f, .4f, new Vector(-.3f, 0));
 
         private const int Width = 1024;
         private const int Height = 768;
