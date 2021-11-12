@@ -77,11 +77,11 @@ namespace SharpEngine
 
         public unsafe void Render()
         {
-            glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
             fixed (Vertex* vertex = &vertices[0])
             {
-                glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.Length, vertex, GL_STATIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.Length, vertex, GL_DYNAMIC_DRAW);
             }
+            glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
         }
 
         private unsafe void LoadVerticesIntoBuffer()

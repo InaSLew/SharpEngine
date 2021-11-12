@@ -10,6 +10,7 @@ namespace SharpEngine
     {
         static Shape triangle = new Triangle(.2f, .2f, new Vector(0, 0));
         static Shape triangle2 = new Triangle(.3f, .4f, new Vector(-.3f, 0));
+        static Shape rectangle = new Rectangle(.3f, .4f, new Vector(.3f, 0));
 
         private const int Width = 1024;
         private const int Height = 768;
@@ -21,37 +22,52 @@ namespace SharpEngine
             
             var multiplier = 0.999f;
             var multiplier2 = 0.985f;
-            triangle.SetMoveDirection(new Vector(0.0003f, 0.0003f));
-            triangle2.SetMoveDirection(new Vector(-0.0003f, -0.0003f));
+            // triangle.SetMoveDirection(new Vector(0.0003f, 0.0003f));
+            // triangle2.SetMoveDirection(new Vector(-0.0003f, -0.0003f));
+            triangle.SetMoveDirection(new Vector(0, 0));
+            triangle2.SetMoveDirection(new Vector(0, 0));
+            rectangle.SetMoveDirection(new Vector(0.0003f, 0.0003f));
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
                 ClearScreen();
                 Render();
                 
-                triangle.Scale(multiplier);
-                if (triangle.CurrentScale <= 0.5f)
+                // triangle.Scale(multiplier);
+                // if (triangle.CurrentScale <= 0.5f)
+                // {
+                //     multiplier = 1.0001f;
+                // }
+                // if (triangle.CurrentScale >= 1f)
+                // {
+                //     multiplier = 0.9999f;
+                // }
+                // triangle.Move();
+                // triangle.Rotate(.1f);
+                //
+                // triangle2.Scale(multiplier2);
+                // if (triangle2.CurrentScale <= 0.5f)
+                // {
+                //     multiplier2 = 1.001f;
+                // }
+                // if (triangle2.CurrentScale >= 1f)
+                // {
+                //     multiplier2 = 0.999f;
+                // }
+                // triangle2.Move();
+                // triangle2.Rotate(-.08f);
+                
+                rectangle.Scale(multiplier);
+                if (rectangle.CurrentScale <= 0.5f)
                 {
                     multiplier = 1.0001f;
                 }
-                if (triangle.CurrentScale >= 1f)
+                if (rectangle.CurrentScale >= 1f)
                 {
                     multiplier = 0.9999f;
                 }
-                triangle.Move();
-                triangle.Rotate(.1f);
-
-                triangle2.Scale(multiplier2);
-                if (triangle2.CurrentScale <= 0.5f)
-                {
-                    multiplier2 = 1.001f;
-                }
-                if (triangle2.CurrentScale >= 1f)
-                {
-                    multiplier2 = 0.999f;
-                }
-                triangle2.Move();
-                triangle2.Rotate(-.08f);
+                rectangle.Move();
+                rectangle.Rotate(-.05f);
             }
 
             Glfw.Terminate();
@@ -65,8 +81,9 @@ namespace SharpEngine
 
         private static void Render()
         {
-            triangle.Render();
-            triangle2.Render();
+            // triangle.Render();
+            // triangle2.Render();
+            rectangle.Render();
             glFlush();
         }
 

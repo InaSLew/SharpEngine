@@ -20,8 +20,8 @@
             {
                 result[i] = i switch
                 {
-                    0 => new Vertex(new Vector(width, 0), Color.Red),
-                    1 => new Vertex(new Vector(0, height), Color.Green),
+                    0 => new Vertex(new Vector(position.x + width, position.y), Color.Red),
+                    1 => new Vertex(new Vector(position.x, position.y + height), Color.Green),
                     _ => new Vertex(position, Color.Blue)
                 };
             }
