@@ -8,14 +8,14 @@ namespace SharpEngine
 {
     class Program
     {
-        static Triangle triangle = new Triangle(new Vertex[]
+        static Triangle triangle = new (new []
         {
             new Vertex(new Vector(.2f, -.07f), Color.Red),
             new Vertex(new Vector(.4f, -.07f), Color.Green),
             new Vertex(new Vector(.3f, .123f), Color.Blue)
         }, new Vector(0.0003f, 0.0003f));
 
-        static Triangle triangle2 = new Triangle(new Vertex[]
+        static Triangle triangle2 = new (new Vertex[]
         {
             new (new Vector(-.1f, -.07f), Color.Red),
             new (new Vector(.1f, -.07f), Color.Green),
