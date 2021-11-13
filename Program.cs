@@ -26,6 +26,7 @@ namespace SharpEngine
             triangle.SetMoveDirection(new Vector(0.0003f, -0.0003f));
             triangle2.SetMoveDirection(new Vector(-0.0003f, -0.0003f));
             rectangle.SetMoveDirection(new Vector(0.0003f, 0.0003f));
+            circle.SetMoveDirection(new Vector(-0.0003f, 0.0003f));
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
@@ -67,6 +68,18 @@ namespace SharpEngine
                 }
                 rectangle.Move();
                 rectangle.Rotate(-.05f);
+                
+                circle.Scale(multiplier2);
+                if (circle.CurrentScale <= 0.5f)
+                {
+                    multiplier = 1.0001f;
+                }
+                if (circle.CurrentScale >= 1f)
+                {
+                    multiplier = 0.9999f;
+                }
+                circle.Move();
+                circle.Rotate(-.05f);
             }
 
             Glfw.Terminate();
