@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static OpenGL.Gl;
 
 namespace SharpEngine
 {
@@ -26,6 +26,12 @@ namespace SharpEngine
             result[5] = new Vertex(new Vector(position.x, position.y + height), Color.Blue);
             
             return result;
+        }
+        
+        public override void Render()
+        {
+            base.Render();
+            glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
         }
     }
 }

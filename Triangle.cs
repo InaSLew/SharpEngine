@@ -1,4 +1,6 @@
-﻿namespace SharpEngine
+﻿using static OpenGL.Gl;
+
+namespace SharpEngine
 {
     public class Triangle : Shape
     {
@@ -20,6 +22,12 @@
             result[1] = new Vertex(new Vector(position.x + width, position.y), Color.Green);
             result[2] = new Vertex(position, Color.Blue);
             return result;
+        }
+
+        public override void Render()
+        {
+            base.Render();
+            glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
         }
     }
 }

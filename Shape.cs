@@ -81,7 +81,6 @@ namespace SharpEngine
             {
                 glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.Length, vertex, GL_DYNAMIC_DRAW);
             }
-            glDrawArrays(GL_TRIANGLES, 0, vertices.Length);
         }
 
         private unsafe void LoadVerticesIntoBuffer()
@@ -112,6 +111,7 @@ namespace SharpEngine
         }
 
         protected float GetRadians(float angle) => angle * (MathF.PI / 180f);
+        protected float GetArctangentInDegree(Vector v) => MathF.Atan2(v.y, v.x) * 180f / MathF.PI;
         public void SetMoveDirection(Vector direction) => moveDirection = direction;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using static OpenGL.Gl;
 
 namespace SharpEngine
@@ -20,23 +21,19 @@ namespace SharpEngine
         private Vertex[] GetVertices()
         {
             var result = new Vertex[NumberOfTriangles];
-            
             for (var i = 0; i < vertices.Length; i++)
             {
-                result[i].Position = position + new Vector(radius * MathF.Cos(i * TwicePi / NumberOfTriangles), radius * MathF.Sin(i * TwicePi / NumberOfTriangles));
-                result[i].Color = Color.Red;
+                result[i] = new Vertex(GetVectorOnCircumference(i), Color.Red);
             }
-
             return result;
         }
 
-        public override unsafe void Render()
+        private Vector GetVectorOnCircumference(int i) => position + new Vector(
+            radius * MathF.Cos(i * TwicePi / NumberOfTriangles), radius * MathF.Sin(i * TwicePi / NumberOfTriangles));
+
+        public override void Render()
         {
-            // base.Render();
-            fixed (Vertex* vertex = &vertices[0])
-            {
-                glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.Length, vertex, GL_DYNAMIC_DRAW);
-            }
+            base.Render();
             glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.Length);
         }
     }
