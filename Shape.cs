@@ -4,7 +4,7 @@ using static OpenGL.Gl;
 
 namespace SharpEngine
 {
-    public class Shape
+    public abstract class Shape
     {
         protected Vertex[] vertices;
         public float CurrentScale { get; private set; }
@@ -96,7 +96,7 @@ namespace SharpEngine
             glEnableVertexAttribArray(1);
         }
 
-        public void Rotate(float degree)
+        public virtual void Rotate(float degree)
         {
             var center = GetCenter();
             Move(center * -1);
@@ -106,12 +106,12 @@ namespace SharpEngine
                 var currentMagnitude = MathF.Sqrt(MathF.Pow(vertices[i].Position.x, 2) + MathF.Pow(vertices[i].Position.y, 2));
                 var newPositionX = MathF.Cos(currentAngle + GetRadians(degree)) * currentMagnitude;
                 var newPositionY = MathF.Sin(currentAngle + GetRadians(degree)) * currentMagnitude;
-                vertices[i].Position = new Vector(newPositionX, newPositionY, vertices[i].Position.z);
+                vertices[i].Position = new Vector(newPositionX, newPositionY);
             }
             Move(center);
         }
 
-        private float GetRadians(float angle) => angle * (MathF.PI / 180f);
+        protected float GetRadians(float angle) => angle * (MathF.PI / 180f);
         public void SetMoveDirection(Vector direction) => moveDirection = direction;
     }
 }

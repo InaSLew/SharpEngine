@@ -11,6 +11,7 @@ namespace SharpEngine
         static Shape triangle = new Triangle(.2f, .2f, new Vector(0, 0));
         static Shape triangle2 = new Triangle(.3f, .4f, new Vector(-.3f, 0));
         static Shape rectangle = new Rectangle(.3f, .4f, new Vector(.3f, 0));
+        // private static Shape circle = new Circle(.3f, new Vector(0, 0));
 
         private const int Width = 1024;
         private const int Height = 768;
@@ -66,6 +67,7 @@ namespace SharpEngine
                 }
                 rectangle.Move();
                 rectangle.Rotate(-.05f);
+                
             }
 
             Glfw.Terminate();
@@ -82,6 +84,7 @@ namespace SharpEngine
             triangle.Render();
             triangle2.Render();
             rectangle.Render();
+            // circle.Render();
             glFlush();
         }
 
