@@ -75,7 +75,7 @@ namespace SharpEngine
             }
         }
 
-        public unsafe void Render()
+        public virtual unsafe void Render()
         {
             fixed (Vertex* vertex = &vertices[0])
             {
