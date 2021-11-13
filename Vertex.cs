@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpEngine
+﻿namespace SharpEngine
 {
     public struct Vertex
     {
