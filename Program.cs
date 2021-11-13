@@ -23,10 +23,12 @@ namespace SharpEngine
             
             var multiplier = 0.999f;
             var multiplier2 = 0.985f;
-            triangle.SetMoveDirection(new Vector(0.0003f, -0.0003f));
-            triangle2.SetMoveDirection(new Vector(-0.0003f, -0.0003f));
-            rectangle.SetMoveDirection(new Vector(0.0003f, 0.0003f));
-            circle.SetMoveDirection(new Vector(-0.0003f, 0.0003f));
+            
+            triangle.SetMoveDirection((Vector.Right + Vector.Down) * 3);
+            triangle2.SetMoveDirection((Vector.Left + Vector.Down) * 3);
+            rectangle.SetMoveDirection((Vector.Right + Vector.Up) * 3);
+            circle.SetMoveDirection((Vector.Left + Vector.Up) * 3);
+            
             while (!Glfw.WindowShouldClose(window))
             {
                 Glfw.PollEvents(); // reacts to window changes (position etc.)
