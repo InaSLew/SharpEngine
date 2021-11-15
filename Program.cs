@@ -6,14 +6,9 @@ namespace SharpEngine
 {
     class Program
     {
-        // static Shape triangle = new Triangle(.2f, .2f, new Vector(0, 0));
-        // static Shape triangle2 = new Triangle(.3f, .4f, new Vector(-.3f, 0));
         // static Shape rectangle = new Rectangle(.3f, .4f, new Vector(.3f, 0));
         // private static Shape circle = new Circle(.3f, new Vector(-.2f, 0));
         private static Shape cone = new Cone(.3f, 45f, new Vector(0, 0));
-
-        // private const int Width = 1024;
-        // private const int Height = 768;
 
         static void Main(string[] args)
         {
@@ -30,9 +25,6 @@ namespace SharpEngine
             
             while (window.IsOpen())
             {
-                // Glfw.PollEvents(); // reacts to window changes (position etc.)
-                // ClearScreen();
-                // Render();
                 
                 // triangle.Scale(multiplier);
                 // if (triangle.CurrentScale <= 0.5f)
@@ -85,41 +77,6 @@ namespace SharpEngine
 
             Glfw.Terminate();
         }
-
-        // private static void ClearScreen()
-        // {
-        //     glClearColor(0,0,0, 1);
-        //     glClear(GL_COLOR_BUFFER_BIT);;
-        // }
-
-        // private static void Render()
-        // {
-        //     // triangle.Render();
-        //     // triangle2.Render();
-        //     // rectangle.Render();
-        //     // circle.Render();
-        //     cone.Render();
-        //     glFlush();
-        // }
-
-        // private static Window CreateWindow()
-        // {
-        //     // Initialize and configure
-        //     Glfw.Init();
-        //     Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
-        //     Glfw.WindowHint(Hint.ContextVersionMajor, 3);
-        //     Glfw.WindowHint(Hint.ContextVersionMinor, 3);
-        //     Glfw.WindowHint(Hint.Decorated, true);
-        //     Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
-        //     Glfw.WindowHint(Hint.OpenglForwardCompatible, Constants.True);
-        //     Glfw.WindowHint(Hint.Doublebuffer, Constants.False);
-        //
-        //     // create and launch window
-        //     var window = Glfw.CreateWindow(Width, Height, "SharpEngine", Monitor.None, Window.None);
-        //     Glfw.MakeContextCurrent(window);
-        //     Import(Glfw.GetProcAddress);
-        //     return window;
-        // }
         
         private static void CreateShaderProgram()
         {

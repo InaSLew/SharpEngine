@@ -34,7 +34,7 @@ namespace SharpEngine
         public void Render() {
             Glfw.PollEvents(); // react to window changes (position etc.)
             ClearScreen();
-            this.scene?.Render();
+            scene?.Render();
             Glfw.SwapBuffers(window);
         }
     }
