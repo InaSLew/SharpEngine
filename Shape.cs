@@ -11,7 +11,6 @@ namespace SharpEngine
         uint vertexArray;
         uint vertexBuffer;
         public float CurrentScale { get; private set; }
-        public Vector moveDirection;
         public Material material;
         public Shape(Vertex[] vertices, Material material)
         {
@@ -64,19 +63,6 @@ namespace SharpEngine
         public void Move(Vector direction)
         {
             transform *= Matrix.Translate(direction);
-            BounceIfTouchEdge();
-        }
-
-        private void BounceIfTouchEdge()
-        {
-            if (GetMaxBound().x >= 1 && moveDirection.x > 0 || GetMinBound().x <= -1 && moveDirection.x < 0)
-            {
-                moveDirection.x *= -1;
-            }
-            if (GetMaxBound().y >= 1 && moveDirection.y > 0 || GetMinBound().y <= -1 && moveDirection.y < 0)
-            {
-                moveDirection.y *= -1;
-            }
         }
 
         public virtual unsafe void Render()
@@ -121,6 +107,5 @@ namespace SharpEngine
 
         protected float GetRadians(float degree) => degree * (MathF.PI / 180f);
         protected float GetArctangentInDegree(Vector v) => MathF.Atan2(v.y, v.x) * 180f / MathF.PI;
-        public void SetMoveDirection(Vector direction) => moveDirection = direction;
     }
 }
