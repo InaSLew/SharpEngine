@@ -7,7 +7,7 @@ namespace SharpEngine
         public float width, height;
         public Vector position;
 
-        public Triangle(float width, float height, Vector position) : base(new Vertex[3])
+        public Triangle(float width, float height, Vector position, Material material) : base(new Vertex[3], material)
         {
             this.width = width;
             this.height = height;

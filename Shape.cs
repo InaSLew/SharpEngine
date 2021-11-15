@@ -9,9 +9,11 @@ namespace SharpEngine
         protected Vertex[] vertices;
         public float CurrentScale { get; private set; }
         public Vector moveDirection;
-        public Shape(Vertex[] vertices)
+        public Material material;
+        public Shape(Vertex[] vertices, Material material)
         {
             this.vertices = vertices;
+            this.material = material;
             CurrentScale = 1f;
             LoadVerticesIntoBuffer();
         }
@@ -85,6 +87,7 @@ namespace SharpEngine
 
         private unsafe void LoadVerticesIntoBuffer()
         {
+            this.material.Use();
             var vertexArray = glGenVertexArray();
             var vertexBuffer = glGenBuffer();
             glBindVertexArray(vertexArray);
@@ -110,7 +113,7 @@ namespace SharpEngine
             Move(center);
         }
 
-        protected float GetRadians(float angle) => angle * (MathF.PI / 180f);
+        protected float GetRadians(float degree) => degree * (MathF.PI / 180f);
         protected float GetArctangentInDegree(Vector v) => MathF.Atan2(v.y, v.x) * 180f / MathF.PI;
         public void SetMoveDirection(Vector direction) => moveDirection = direction;
     }

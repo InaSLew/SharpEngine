@@ -9,7 +9,7 @@ namespace SharpEngine
         // public Scene()
         // public void Add(Triangle triangle)
         // public void Render()
-        private List<Triangle> triangles;
+        public List<Triangle> triangles;
         public Scene()
         {
             triangles = new List<Triangle>();
