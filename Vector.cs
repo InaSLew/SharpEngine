@@ -31,5 +31,6 @@ namespace SharpEngine
         public static readonly Vector Up = new (0, .0001f);
         public static readonly Vector Down = new (0, -.0001f);
         public static readonly Vector Zero = new (0, 0);
+        public static readonly Vector One = new(1, 1);
     }
 }

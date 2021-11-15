@@ -4,11 +4,6 @@ namespace SharpEngine
 {
     public class Scene
     {
-        // 2. Move all Triangles to Scene.cs
-        // with:
-        // public Scene()
-        // public void Add(Triangle triangle)
-        // public void Render()
         public List<Triangle> triangles;
         public Scene()
         {
