@@ -1,4 +1,6 @@
-﻿namespace SharpEngine
+﻿using System;
+
+namespace SharpEngine
 {
     public struct Matrix
     {
@@ -73,6 +75,16 @@
             result.m11 = multiplier.x;
             result.m22 = multiplier.y;
             result.m33 = multiplier.z;
+            return result;
+        }
+
+        public static Matrix Rotate(float radians)
+        {
+            var result = Identity;
+            result.m11 = MathF.Cos(radians);
+            result.m12 = MathF.Sin(radians) * -1;
+            result.m21 = MathF.Sin(radians);
+            result.m22 = MathF.Cos(radians);
             return result;
         }
     }

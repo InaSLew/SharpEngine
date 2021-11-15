@@ -45,8 +45,8 @@ namespace SharpEngine
             // engine rendering loop
             var direction = Vector.One * .0001f;
             var multiplier = .999f;
-            var rotation = .05f;
-            
+            var rotation = .055f;
+
             while (window.IsOpen())
             {
                 
@@ -54,15 +54,15 @@ namespace SharpEngine
                 {
                     var triangle = scene.triangles[i];
                     
-                    if (triangle.CurrentScale <= 0.5f) {
-                        multiplier = 1.001f;
-                    }
-                    if (triangle.CurrentScale >= 1f) {
-                        multiplier = 0.999f;
-                    }
+                    // if (triangle.CurrentScale <= 0.5f) {
+                    //     multiplier = 1.001f;
+                    // }
+                    // if (triangle.CurrentScale >= 1f) {
+                    //     multiplier = 0.999f;
+                    // }
+                    // triangle.Scale(multiplier);
                     
-                    triangle.Scale(multiplier);
-                    // triangle.Rotate(rotation);
+                    triangle.Rotate(rotation);
                     //
                     // if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0) {
                     //     direction.x *= -1;
@@ -70,14 +70,16 @@ namespace SharpEngine
                     // if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0) {
                     //     direction.y *= -1;
                     // }
-                    if (triangle.Translation.x >= 1 && direction.x > 0 || triangle.Translation.x <= -1 && direction.x < 0) {
-                        direction.x *= -1;
-                    }
-                    if (triangle.Translation.y >= 1 && direction.y > 0 || triangle.Translation.y <= -1 && direction.y < 0) {
-                        direction.y *= -1;
-                    }
                     
-                    triangle.Move(direction);
+                    // if (triangle.Translation.x >= 1 && direction.x > 0 || triangle.Translation.x <= -1 && direction.x < 0)
+                    // {
+                    //     direction.x *= -1;
+                    // }
+                    // if (triangle.Translation.y >= 1 && direction.y > 0 || triangle.Translation.y <= -1 && direction.y < 0)
+                    // {
+                    //     direction.y *= -1;
+                    // }
+                    // triangle.Move(direction);
                 }
                 window.Render();
             }

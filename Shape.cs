@@ -57,6 +57,7 @@ namespace SharpEngine
             //     vertices[i].Position = new Vector(newPositionX, newPositionY);
             // }
             // Move(center);
+            transform *= Matrix.Rotate(GetRadians(degree));
         }
 
         // private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
