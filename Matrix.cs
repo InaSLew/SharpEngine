@@ -81,10 +81,25 @@ namespace SharpEngine
         public static Matrix Rotate(float radians)
         {
             var result = Identity;
-            result.m11 = MathF.Cos(radians);
-            result.m12 = MathF.Sin(radians) * -1;
-            result.m21 = MathF.Sin(radians);
+
+            // x-axis rotation
             result.m22 = MathF.Cos(radians);
+            result.m23 = MathF.Sin(radians) * -1;
+            result.m32 = MathF.Sin(radians);
+            result.m33 = MathF.Cos(radians);
+            
+            // y-axis rotation
+            // result.m11 = MathF.Cos(radians);
+            // result.m13 = MathF.Sin(radians);
+            // result.m31 = MathF.Sin(radians) * -1;
+            // result.m33 = MathF.Cos(radians);
+            
+            // z-axis rotation
+            // result.m11 = MathF.Cos(radians);
+            // result.m12 = MathF.Sin(radians) * -1;
+            // result.m21 = MathF.Sin(radians);
+            // result.m22 = MathF.Cos(radians);
+            
             return result;
         }
     }
