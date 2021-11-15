@@ -5,6 +5,7 @@ namespace SharpEngine
     public class Scene
     {
         public List<Triangle> triangles;
+        // more Lists of shapes can be put here
         public Scene()
         {
             triangles = new List<Triangle>();

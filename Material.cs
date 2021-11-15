@@ -22,9 +22,16 @@ namespace SharpEngine
             glAttachShader(program, vertexShader);
             glAttachShader(program, fragmentShader);
             glLinkProgram(program);
-            glUseProgram(program);
+            glDeleteShader(vertexShader);
+            glDeleteShader(fragmentShader);
         }
 
         public void Use() => glUseProgram(program);
+
+        public unsafe void SetTransform(Matrix matrix)
+        {
+            int transformLocation = glGetUniformLocation(program, "transform");
+            glUniformMatrix4fv(transformLocation, 1, true, &matrix.m11);
+        }
     }
 }

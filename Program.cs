@@ -54,22 +54,22 @@ namespace SharpEngine
                 {
                     var triangle = scene.triangles[i];
                     
-                    if (triangle.CurrentScale <= 0.5f) {
-                        multiplier = 1.001f;
-                    }
-                    if (triangle.CurrentScale >= 1f) {
-                        multiplier = 0.999f;
-                    }
-                    
-                    triangle.Scale(multiplier);
-                    triangle.Rotate(rotation);
-                
-                    if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0) {
-                        direction.x *= -1;
-                    }
-                    if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0) {
-                        direction.y *= -1;
-                    }
+                    // if (triangle.CurrentScale <= 0.5f) {
+                    //     multiplier = 1.001f;
+                    // }
+                    // if (triangle.CurrentScale >= 1f) {
+                    //     multiplier = 0.999f;
+                    // }
+                    //
+                    // triangle.Scale(multiplier);
+                    // triangle.Rotate(rotation);
+                    //
+                    // if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0) {
+                    //     direction.x *= -1;
+                    // }
+                    // if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0) {
+                    //     direction.y *= -1;
+                    // }
                     
                     triangle.Move(direction);
                 }

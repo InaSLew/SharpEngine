@@ -57,5 +57,14 @@
                 b.m13*a.m41+b.m23*a.m42+b.m33*a.m43+b.m43*a.m44,
                 b.m14*a.m41+b.m24*a.m42+b.m34*a.m43+b.m44*a.m44);
         }
+
+        public static Matrix Translate(Vector translation)
+        {
+            var result = Identity;
+            result.m14 = translation.x;
+            result.m24 = translation.y;
+            result.m34 = translation.z;
+            return result;
+        }
     }
 }
