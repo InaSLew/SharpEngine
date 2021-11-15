@@ -9,11 +9,13 @@ namespace SharpEngine
         // static Shape rectangle = new Rectangle(.3f, .4f, new Vector(.3f, 0));
         // private static Shape circle = new Circle(.3f, new Vector(-.2f, 0));
         private static Shape cone = new Cone(.3f, 45f, new Vector(0, 0));
+        private const string vertexShaderPath = "shaders/Shape.vert";
+        private const string fragmentShaderPath = "shaders/Shape.frag";
 
         static void Main(string[] args)
         {
             var window = new Window();
-            CreateShaderProgram();
+            var material = new Material(vertexShaderPath, fragmentShaderPath);
             
             var multiplier = 0.999f;
             var multiplier2 = 0.985f;
@@ -76,23 +78,6 @@ namespace SharpEngine
             }
 
             Glfw.Terminate();
-        }
-        
-        private static void CreateShaderProgram()
-        {
-            var vertexShader = glCreateShader(GL_VERTEX_SHADER);
-            glShaderSource(vertexShader, File.ReadAllText("shaders/Shape.vert"));
-            glCompileShader(vertexShader);
-            
-            var fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(fragmentShader, File.ReadAllText("shaders/Shape.frag"));
-            glCompileShader(fragmentShader);
-            
-            var program = glCreateProgram();
-            glAttachShader(program, vertexShader);
-            glAttachShader(program, fragmentShader);
-            glLinkProgram(program);
-            glUseProgram(program);
         }
     }
 }
