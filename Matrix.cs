@@ -66,5 +66,14 @@
             result.m34 = translation.z;
             return result;
         }
+
+        public static Matrix Scale(Vector multiplier)
+        {
+            var result = Identity;
+            result.m11 = multiplier.x;
+            result.m22 = multiplier.y;
+            result.m33 = multiplier.z;
+            return result;
+        }
     }
 }

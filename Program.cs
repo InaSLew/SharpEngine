@@ -54,14 +54,14 @@ namespace SharpEngine
                 {
                     var triangle = scene.triangles[i];
                     
-                    // if (triangle.CurrentScale <= 0.5f) {
-                    //     multiplier = 1.001f;
-                    // }
-                    // if (triangle.CurrentScale >= 1f) {
-                    //     multiplier = 0.999f;
-                    // }
-                    //
-                    // triangle.Scale(multiplier);
+                    if (triangle.CurrentScale <= 0.5f) {
+                        multiplier = 1.001f;
+                    }
+                    if (triangle.CurrentScale >= 1f) {
+                        multiplier = 0.999f;
+                    }
+                    
+                    triangle.Scale(multiplier);
                     // triangle.Rotate(rotation);
                     //
                     // if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0) {

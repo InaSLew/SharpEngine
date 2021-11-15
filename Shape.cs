@@ -33,7 +33,9 @@ namespace SharpEngine
             //
             // Move(center);
             //
-            // CurrentScale *= multiplier;
+            var mV = new Vector(multiplier, multiplier);
+            transform *= Matrix.Scale(mV);
+            CurrentScale *= multiplier;
         }
 
         private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
