@@ -7,7 +7,10 @@ namespace SharpEngine
     public abstract class Shape
     {
         protected Vertex[] vertices;
-        internal Matrix transform = Matrix.Identity;
+        
+        private Matrix transform = Matrix.Identity;
+        public Vector Translation => new Vector(transform.m14, transform.m24, transform.m34);
+
         uint vertexArray;
         uint vertexBuffer;
         public float CurrentScale { get; private set; }
@@ -18,6 +21,11 @@ namespace SharpEngine
             this.material = material;
             CurrentScale = 1f;
             LoadVerticesIntoBuffer();
+        }
+        
+        public void Move(Vector direction)
+        {
+            transform *= Matrix.Translate(direction);
         }
 
         public void Scale(float multiplier)
@@ -31,13 +39,27 @@ namespace SharpEngine
             // }
             //
             // Move(center);
-            //
-            var mV = new Vector(multiplier, multiplier);
-            transform *= Matrix.Scale(mV);
+            //;
+            transform *= Matrix.Scale(new Vector(multiplier, multiplier));
             CurrentScale *= multiplier;
         }
+        
+        public virtual void Rotate(float degree)
+        {
+            // var center = GetCenter();
+            // Move(center * -1);
+            // for (var i = 0; i < vertices.Length; i++)
+            // {
+            //     var currentAngle = MathF.Atan2(vertices[i].Position.y, vertices[i].Position.x);
+            //     var currentMagnitude = MathF.Sqrt(MathF.Pow(vertices[i].Position.x, 2) + MathF.Pow(vertices[i].Position.y, 2));
+            //     var newPositionX = MathF.Cos(currentAngle + GetRadians(degree)) * currentMagnitude;
+            //     var newPositionY = MathF.Sin(currentAngle + GetRadians(degree)) * currentMagnitude;
+            //     vertices[i].Position = new Vector(newPositionX, newPositionY);
+            // }
+            // Move(center);
+        }
 
-        private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
+        // private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
 
         public Vector GetMaxBound()
         {
@@ -58,11 +80,6 @@ namespace SharpEngine
             }
 
             return min;
-        }
-
-        public void Move(Vector direction)
-        {
-            transform *= Matrix.Translate(direction);
         }
 
         public virtual unsafe void Render()
@@ -88,21 +105,6 @@ namespace SharpEngine
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
             glBindVertexArray(0);
-        }
-
-        public virtual void Rotate(float degree)
-        {
-            // var center = GetCenter();
-            // Move(center * -1);
-            // for (var i = 0; i < vertices.Length; i++)
-            // {
-            //     var currentAngle = MathF.Atan2(vertices[i].Position.y, vertices[i].Position.x);
-            //     var currentMagnitude = MathF.Sqrt(MathF.Pow(vertices[i].Position.x, 2) + MathF.Pow(vertices[i].Position.y, 2));
-            //     var newPositionX = MathF.Cos(currentAngle + GetRadians(degree)) * currentMagnitude;
-            //     var newPositionY = MathF.Sin(currentAngle + GetRadians(degree)) * currentMagnitude;
-            //     vertices[i].Position = new Vector(newPositionX, newPositionY);
-            // }
-            // Move(center);
         }
 
         protected float GetRadians(float degree) => degree * (MathF.PI / 180f);
