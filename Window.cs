@@ -26,7 +26,7 @@ namespace SharpEngine
         }
 
         public bool IsOpen() => !Glfw.WindowShouldClose(window);
-        static void ClearScreen() {
+        private static void ClearScreen() {
             glClearColor(.2f, .05f, .2f, 1);
             glClear(GL_COLOR_BUFFER_BIT);
         }
