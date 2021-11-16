@@ -22,6 +22,12 @@ namespace SharpEngine
             Position += direction;
         }
 
+        public Vector GetTransformedPosition()
+        {
+            var m = Matrix;
+            return new Vector(m.m14, m.m24, m.m34);
+        }
+
         public void Scale(float multiplier)
         {
             CurrentScale *= multiplier;

@@ -89,14 +89,13 @@ namespace SharpEngine
                     else if (dotProduct > 0) cube.SetColor(Color.Green);
                     
                     // circle stuff
-                    var cM = circle.Transform.Matrix;
-                    var pM = player.Transform.Matrix;
-                    var vectorSubtraction =  new Vector(pM.m14, pM.m24, pM.m34) - new Vector(cM.m14, cM.m24, cM.m34);
+                    var vectorSubtraction =  player.Transform.GetTransformedPosition() - circle.Transform.GetTransformedPosition();
+                    // var vectorSubtraction =  player.Transform.Position - circle.Transform.Position;
                     var inRadians = MathF.Acos(Vector.Dot(vectorSubtraction.Normalize(),
                         player.Transform.Forward.Normalize()));
                     var inDegree = (int)Math.Round(inRadians * 180f / MathF.PI, 0);
                     if (inDegree is >= 0 and < 3) circle.SetColor(Color.Black);
-                    else if (inDegree == 180) circle.SetColor(Color.White);
+                    else if (inDegree is > 175 and <= 180) circle.SetColor(Color.White);
                     Console.WriteLine($"{inDegree} degrees between player forward vector and circle position");
 
                     walkDirection = walkDirection.Normalize();
