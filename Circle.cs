@@ -10,7 +10,7 @@ namespace SharpEngine
         private const int NumberOfTriangles = 36;
         private const float TwicePi = 2f * MathF.PI;
     
-        public Circle(float radius, Vector position, Material material) : base(new Vertex[NumberOfTriangles], material, Color.Blue)
+        public Circle(float radius, Vector position, Material material, Color color) : base(new Vertex[NumberOfTriangles], material, color)
         {
             this.radius = radius;
             this.position = position;

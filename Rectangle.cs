@@ -7,7 +7,7 @@ namespace SharpEngine
         public float width, height;
         public Vector position;
 
-        public Rectangle(float width, float height, Vector position, Material material) : base(new Vertex[4], material, Color.Blue)
+        public Rectangle(float width, float height, Vector position, Material material, Color color) : base(new Vertex[4], material, color)
         {
             this.width = width;
             this.height = height;
