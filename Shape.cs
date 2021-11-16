@@ -6,10 +6,10 @@ namespace SharpEngine
     public abstract class Shape
     {
         protected Vertex[] vertices;
-        uint vertexArray;
-        uint vertexBuffer;
+        private uint vertexArray;
+        private uint vertexBuffer;
         public Transform Transform { get; }
-        public Material material;
+        private Material material;
         public Shape(Vertex[] vertices, Material material)
         {
             this.vertices = vertices;

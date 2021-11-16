@@ -15,26 +15,19 @@ namespace SharpEngine
         
         public void Move(Vector direction)
         {
-            //transform *= Matrix.Translate(direction);
             Position += direction;
         }
 
         public void Scale(float multiplier)
         {
-            //     transform *= Matrix.Scale(new Vector(multiplier, multiplier));
-            //     CurrentScale *= multiplier;
             CurrentScale *= multiplier;
         }
         
         public virtual void Rotate(float zAngle)
         {
-            // transform *= Matrix.Rotate(GetRadians(degree));
-            // var rotation = this.Rotation;
             var rotation = Rotation;
             rotation.z += zAngle;
             Rotation = rotation;
         }
-        
-        private float GetRadians(float degree) => degree * (MathF.PI / 180f);
     }
 }

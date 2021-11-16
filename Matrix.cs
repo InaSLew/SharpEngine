@@ -77,6 +77,8 @@ namespace SharpEngine
             result.m33 = multiplier.z;
             return result;
         }
+        
+        public static Matrix Rotate(Vector rotation) => RotateZ(rotation.z) * RotateY(rotation.y) * RotateX(rotation.x);
 
         public static Matrix RotateX(float x)
         {
@@ -107,7 +109,5 @@ namespace SharpEngine
             result.m22 = MathF.Cos(z);
             return result;
         }
-
-        public static Matrix Rotate(Vector rotation) => RotateZ(rotation.z) * RotateY(rotation.y) * RotateX(rotation.x);
     }
 }
