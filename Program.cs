@@ -39,7 +39,9 @@ namespace SharpEngine
             window.Load(scene);
             
             Triangle newTriangle = new Triangle(.3f, .4f, new Vector(-.3f, 0), material);
+            Rectangle newRect = new Rectangle(.04f, .05f, new Vector(0, 0), material);
             scene.Add(newTriangle);
+            scene.Add(newRect);
 
             // engine rendering loop
             var direction = Vector.One * .01f;
@@ -54,9 +56,9 @@ namespace SharpEngine
                 if (Glfw.Time > previousUpdate + fixedStepUnit)
                 {
                     previousUpdate = Glfw.Time;
-                    for (var i = 0; i < scene.triangles.Count; i++)
+                    for (var i = 0; i < scene.Triangles.Count; i++)
                     {
-                        var triangle = scene.triangles[i];
+                        var triangle = scene.Triangles[i];
                         triangle.Transform.Scale(multiplier);
                         if (triangle.Transform.CurrentScale.x <= 0.5f) {
                             multiplier = 1.05f;
@@ -76,6 +78,31 @@ namespace SharpEngine
                             direction.y *= -1;
                         }
                         triangle.Transform.Move(direction);
+                    }
+
+                    var rectangles = scene.Rectangles;
+                    for (var i = 0; i < rectangles.Count; i++)
+                    {
+                        var rect = rectangles[i];
+                        rect.Transform.Scale(multiplier);
+                        if (rect.Transform.CurrentScale.x <= 0.5f) {
+                            multiplier = 1.05f;
+                        }
+                        if (rect.Transform.CurrentScale.x >= 1f) {
+                            multiplier = .95f;
+                        }
+                    
+                        rect.Transform.Rotate(rotation);
+                    
+                        if (rect.GetMaxBound().x >= 1 && direction.x > 0 || rect.GetMinBound().x <= -1 && direction.x < 0)
+                        {
+                            direction.x *= -1;
+                        }
+                        if (rect.GetMaxBound().y >= 1 && direction.y > 0 || rect.GetMinBound().y <= -1 && direction.y < 0)
+                        {
+                            direction.y *= -1;
+                        }
+                        rect.Transform.Move(direction);
                     }
                 }
                 
