@@ -33,9 +33,7 @@ namespace SharpEngine
         public static readonly Vector Zero = new (0, 0);
         public static readonly Vector One = new(1, 1);
 
-        public double GetMagnitude()
-        {
-            throw new NotImplementedException();
-        }
+        public float GetMagnitude() => MathF.Sqrt(x * x + y * y + z * z);
+        public Vector Normalize() => GetMagnitude() > 0 ? this / GetMagnitude() : this;
     }
 }

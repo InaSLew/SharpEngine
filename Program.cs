@@ -51,30 +51,36 @@ namespace SharpEngine
             var rotation = new Vector(0, .05f, 0);
             var xRotation = new Vector(.05f, 0, 0);
             const int fixedStepNumberPerSecond = 30;
-            const float fixedStepDuration = 1.0f / fixedStepNumberPerSecond;
+            const float fixedDeltaTime = 1.0f / fixedStepNumberPerSecond;
+            const float movementSpeed = .5f;
             double previousFixedStep = 0.0;
 
             while (window.IsOpen())
             {
-                if (Glfw.Time > previousFixedStep + fixedStepDuration)
+                if (Glfw.Time > previousFixedStep + fixedDeltaTime)
                 {
-                    previousFixedStep = Glfw.Time;
+                    // previousFixedStep = Glfw.Time;
+                    previousFixedStep += fixedDeltaTime;
+                    var walkDirectoin = new Vector();
                     if (window.GetKey(Keys.W))
                     {
-                        circle.Transform.Position += new Vector(0, .5f * fixedStepDuration, 0);
+                        walkDirectoin += new Vector(0, 1);
                     }
                     if (window.GetKey(Keys.S))
                     {
-                        circle.Transform.Position += new Vector(0, -.5f * fixedStepDuration, 0);
+                        walkDirectoin += new Vector(0, -1);
                     }
                     if (window.GetKey(Keys.A))
                     {
-                        circle.Transform.Position += new Vector(-.5f * fixedStepDuration, 0, 0);
+                        walkDirectoin += new Vector(-1, 0);
                     }
                     if (window.GetKey(Keys.D))
                     {
-                        circle.Transform.Position += new Vector(.5f * fixedStepDuration, 0);
+                        walkDirectoin += new Vector(1, 0);
                     }
+
+                    walkDirectoin = walkDirectoin.Normalize();
+                    circle.Transform.Position += walkDirectoin * movementSpeed * fixedDeltaTime;
                     // for (var i = 0; i < scene.Triangles.Count; i++)
                     // {
                     //     var triangle = scene.Triangles[i];
