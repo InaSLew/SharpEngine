@@ -39,7 +39,7 @@ namespace SharpEngine
             window.Load(scene);
             
             var player = new Triangle(.03f, .03f, new Vector(0, 0), material, Color.Blue);
-            player.Transform.CurrentScale = new Vector(.5f, 2.5f, 1f);
+            player.Transform.CurrentScale = new Vector(.5f, 1.5f, 1f);
             scene.Add(player);
 
             var cube = new Rectangle(.04f, .06f, new Vector(0, .5f), material, Color.White);
@@ -83,9 +83,21 @@ namespace SharpEngine
                         player.Transform.Rotation = rotation;
                     }
 
+                    // cube stuff
                     var dotProduct = Vector.Dot(player.Transform.Forward, cube.position);
                     if (dotProduct < 0) cube.SetColor(Color.Red);
                     else if (dotProduct > 0) cube.SetColor(Color.Green);
+                    
+                    // circle stuff
+                    var cM = circle.Transform.Matrix;
+                    var pM = player.Transform.Matrix;
+                    var vectorSubtraction =  new Vector(pM.m14, pM.m24, pM.m34) - new Vector(cM.m14, cM.m24, cM.m34);
+                    var inRadians = MathF.Acos(Vector.Dot(vectorSubtraction.Normalize(),
+                        player.Transform.Forward.Normalize()));
+                    var inDegree = (int)Math.Round(inRadians * 180f / MathF.PI, 0);
+                    if (inDegree is >= 0 and < 3) circle.SetColor(Color.Black);
+                    else if (inDegree == 180) circle.SetColor(Color.White);
+                    Console.WriteLine($"{inDegree} degrees between player forward vector and circle position");
 
                     walkDirection = walkDirection.Normalize();
                     player.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
