@@ -60,24 +60,24 @@ namespace SharpEngine
             transform *= Matrix.Rotate(GetRadians(degree));
         }
 
-        // private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
+        private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
 
         public Vector GetMaxBound()
         {
-            var max = vertices[0].Position;
+            var max =  transform * vertices[0].Position;
             for (var i = 0; i < vertices.Length; i++)
             {
-                max = Vector.Max(max, vertices[i].Position);
+                max = Vector.Max(max, transform * vertices[i].Position);
             }
             return max;
         }
         
         public Vector GetMinBound()
         {
-            var min = vertices[0].Position;
+            var min = transform * vertices[0].Position;
             for (var i = 0; i < vertices.Length; i++)
             {
-                min = Vector.Min(min, vertices[i].Position);
+                min = Vector.Min(min, transform * vertices[i].Position);
             }
 
             return min;
@@ -108,7 +108,6 @@ namespace SharpEngine
             glBindVertexArray(0);
         }
 
-        protected float GetRadians(float degree) => degree * (MathF.PI / 180f);
-        protected float GetArctangentInDegree(Vector v) => MathF.Atan2(v.y, v.x) * 180f / MathF.PI;
+        private float GetRadians(float degree) => degree * (MathF.PI / 180f);
     }
 }
