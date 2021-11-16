@@ -38,99 +38,100 @@ namespace SharpEngine
             var scene = new Scene();
             window.Load(scene);
             
-            Triangle newTriangle = new Triangle(.3f, .4f, new Vector(-.3f, 0), material);
-            Rectangle newRect = new Rectangle(.04f, .05f, new Vector(0, 0), material);
-            Circle newCircle = new Circle(.25f, new Vector(-.5f, 0), material);
-            scene.Add(newTriangle);
-            scene.Add(newRect);
-            scene.Add(newCircle);
+            Rectangle ground = new Rectangle(.04f, .05f, new Vector(0, -1), material);
+            ground.Transform.CurrentScale = new Vector(20f, 1f, 1f);
+            
+            Circle circle = new Circle(.025f, new Vector(-.5f, 0), material);
+            scene.Add(circle);
+            scene.Add(ground);
 
             // engine rendering loop
             var direction = Vector.One * .01f;
             var multiplier = .95f;
             var rotation = new Vector(0, .05f, 0);
+            var xRotation = new Vector(.05f, 0, 0);
             const int fixedStepNumberPerSecond = 30;
-            const double fixedStepUnit = 1.0 / fixedStepNumberPerSecond;
-            double previousUpdate = 0.0;
+            const double fixedStepDuration = 1.0 / fixedStepNumberPerSecond;
+            double previousFixedStep = 0.0;
 
             while (window.IsOpen())
             {
-                if (Glfw.Time > previousUpdate + fixedStepUnit)
+                if (Glfw.Time > previousFixedStep + fixedStepDuration)
                 {
-                    previousUpdate = Glfw.Time;
-                    for (var i = 0; i < scene.Triangles.Count; i++)
-                    {
-                        var triangle = scene.Triangles[i];
-                        triangle.Transform.Scale(multiplier);
-                        if (triangle.Transform.CurrentScale.x <= 0.5f) {
-                            multiplier = 1.05f;
-                        }
-                        if (triangle.Transform.CurrentScale.x >= 1f) {
-                            multiplier = .95f;
-                        }
-                    
-                        triangle.Transform.Rotate(rotation);
-                    
-                        if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)
-                        {
-                            direction.x *= -1;
-                        }
-                        if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0)
-                        {
-                            direction.y *= -1;
-                        }
-                        triangle.Transform.Move(direction);
-                    }
+                    previousFixedStep = Glfw.Time;
+                    // for (var i = 0; i < scene.Triangles.Count; i++)
+                    // {
+                    //     var triangle = scene.Triangles[i];
+                    //     triangle.Transform.Scale(multiplier);
+                    //     if (triangle.Transform.CurrentScale.x <= 0.5f) {
+                    //         multiplier = 1.05f;
+                    //     }
+                    //     if (triangle.Transform.CurrentScale.x >= 1f) {
+                    //         multiplier = .95f;
+                    //     }
+                    //
+                    //     triangle.Transform.Rotate(rotation);
+                    //
+                    //     if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)
+                    //     {
+                    //         direction.x *= -1;
+                    //     }
+                    //     if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0)
+                    //     {
+                    //         direction.y *= -1;
+                    //     }
+                    //     triangle.Transform.Move(direction);
+                    // }
+                    //
+                    // var rectangles = scene.Rectangles;
+                    // for (var i = 0; i < rectangles.Count; i++)
+                    // {
+                    //     var rect = rectangles[i];
+                    //     rect.Transform.Scale(multiplier);
+                    //     if (rect.Transform.CurrentScale.x <= 0.5f) {
+                    //         multiplier = 1.05f;
+                    //     }
+                    //     if (rect.Transform.CurrentScale.x >= 1f) {
+                    //         multiplier = .95f;
+                    //     }
+                    //
+                    //     rect.Transform.Rotate(rotation);
+                    //
+                    //     if (rect.GetMaxBound().x >= 1 && direction.x > 0 || rect.GetMinBound().x <= -1 && direction.x < 0)
+                    //     {
+                    //         direction.x *= -1;
+                    //     }
+                    //     if (rect.GetMaxBound().y >= 1 && direction.y > 0 || rect.GetMinBound().y <= -1 && direction.y < 0)
+                    //     {
+                    //         direction.y *= -1;
+                    //     }
+                    //     rect.Transform.Move(direction);
+                    // }
 
-                    var rectangles = scene.Rectangles;
-                    for (var i = 0; i < rectangles.Count; i++)
-                    {
-                        var rect = rectangles[i];
-                        rect.Transform.Scale(multiplier);
-                        if (rect.Transform.CurrentScale.x <= 0.5f) {
-                            multiplier = 1.05f;
-                        }
-                        if (rect.Transform.CurrentScale.x >= 1f) {
-                            multiplier = .95f;
-                        }
-                    
-                        rect.Transform.Rotate(rotation);
-                    
-                        if (rect.GetMaxBound().x >= 1 && direction.x > 0 || rect.GetMinBound().x <= -1 && direction.x < 0)
-                        {
-                            direction.x *= -1;
-                        }
-                        if (rect.GetMaxBound().y >= 1 && direction.y > 0 || rect.GetMinBound().y <= -1 && direction.y < 0)
-                        {
-                            direction.y *= -1;
-                        }
-                        rect.Transform.Move(direction);
-                    }
-
-                    var circles = scene.Circles;
-                    for (var i = 0; i < circles.Count; i++)
-                    {
-                        var circle = circles[i];
-                        circle.Transform.Scale(multiplier);
-                        if (circle.Transform.CurrentScale.x <= 0.5f) {
-                            multiplier = 1.05f;
-                        }
-                        if (circle.Transform.CurrentScale.x >= 1f) {
-                            multiplier = .95f;
-                        }
-                    
-                        circle.Transform.Rotate(rotation);
-                    
-                        if (circle.GetMaxBound().x >= 1 && direction.x > 0 || circle.GetMinBound().x <= -1 && direction.x < 0)
-                        {
-                            direction.x *= -1;
-                        }
-                        if (circle.GetMaxBound().y >= 1 && direction.y > 0 || circle.GetMinBound().y <= -1 && direction.y < 0)
-                        {
-                            direction.y *= -1;
-                        }
-                        circle.Transform.Move(direction);
-                    }
+                    // var circles = scene.Circles;
+                    // for (var i = 0; i < circles.Count; i++)
+                    // {
+                    //     var circle = circles[i];
+                    //     circle.Transform.Scale(multiplier);
+                    //     if (circle.Transform.CurrentScale.x <= 0.5f) {
+                    //         multiplier = 1.05f;
+                    //     }
+                    //     if (circle.Transform.CurrentScale.x >= 1f) {
+                    //         multiplier = .95f;
+                    //     }
+                    //
+                    //     circle.Transform.Rotate(xRotation);
+                    //
+                    //     if (circle.GetMaxBound().x >= 1 && direction.x > 0 || circle.GetMinBound().x <= -1 && direction.x < 0)
+                    //     {
+                    //         direction.x *= -1;
+                    //     }
+                    //     if (circle.GetMaxBound().y >= 1 && direction.y > 0 || circle.GetMinBound().y <= -1 && direction.y < 0)
+                    //     {
+                    //         direction.y *= -1;
+                    //     }
+                    //     circle.Transform.Move(direction);
+                    // }
                 }
                 
                 window.Render();

@@ -4,9 +4,9 @@ namespace SharpEngine
 {
     public class Transform
     {
-        public Vector CurrentScale { get; private set; }
-        public Vector Position { get; private set; }
-        public Vector Rotation { get; private set; }
+        public Vector CurrentScale { get; set; }
+        public Vector Position { get; set; }
+        public Vector Rotation { get; set; }
         public Matrix Matrix =>  Matrix.Translate(Position) * Matrix.Rotate(Rotation) * Matrix.Scale(CurrentScale);
         public Transform()
         {
