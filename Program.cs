@@ -72,15 +72,6 @@ namespace SharpEngine
                     {
                         direction.y *= -1;
                     }
-                    
-                    // if (triangle.Translation.x >= 1 && direction.x > 0 || triangle.Translation.x <= -1 && direction.x < 0)
-                    // {
-                    //     direction.x *= -1;
-                    // }
-                    // if (triangle.Translation.y >= 1 && direction.y > 0 || triangle.Translation.y <= -1 && direction.y < 0)
-                    // {
-                    //     direction.y *= -1;
-                    // }
                     triangle.Transform.Move(direction);
                 }
                 window.Render();

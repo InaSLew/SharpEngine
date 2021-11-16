@@ -1,68 +1,22 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using static OpenGL.Gl;
 
 namespace SharpEngine
 {
     public abstract class Shape
     {
-        protected Vertex[] vertices;
-        
-        // private Matrix transform = Matrix.Identity;
-        // public Vector Translation => new Vector(transform.m14, transform.m24, transform.m34);
-
+        private Vertex[] vertices;
         uint vertexArray;
         uint vertexBuffer;
-        // public float CurrentScale { get; private set; }
         public Transform Transform { get; }
         public Material material;
         public Shape(Vertex[] vertices, Material material)
         {
             this.vertices = vertices;
             this.material = material;
-            // CurrentScale = 1f;
             LoadVerticesIntoBuffer();
             Transform = new Transform();
         }
-        
-        // public void Move(Vector direction)
-        // {
-        //     transform *= Matrix.Translate(direction);
-        // }
-        //
-        // public void Scale(float multiplier)
-        // {
-        //     // var center = GetCenter();
-        //     // Move(center * -1);
-        //     //
-        //     // for (int i = 0; i < vertices.Length; i++)
-        //     // {
-        //     //     vertices[i].Position *= multiplier;
-        //     // }
-        //     //
-        //     // Move(center);
-        //     //;
-        //     transform *= Matrix.Scale(new Vector(multiplier, multiplier));
-        //     CurrentScale *= multiplier;
-        // }
-        
-        // public virtual void Rotate(float degree)
-        // {
-        //     // var center = GetCenter();
-        //     // Move(center * -1);
-        //     // for (var i = 0; i < vertices.Length; i++)
-        //     // {
-        //     //     var currentAngle = MathF.Atan2(vertices[i].Position.y, vertices[i].Position.x);
-        //     //     var currentMagnitude = MathF.Sqrt(MathF.Pow(vertices[i].Position.x, 2) + MathF.Pow(vertices[i].Position.y, 2));
-        //     //     var newPositionX = MathF.Cos(currentAngle + GetRadians(degree)) * currentMagnitude;
-        //     //     var newPositionY = MathF.Sin(currentAngle + GetRadians(degree)) * currentMagnitude;
-        //     //     vertices[i].Position = new Vector(newPositionX, newPositionY);
-        //     // }
-        //     // Move(center);
-        //     transform *= Matrix.Rotate(GetRadians(degree));
-        // }
-
-        private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
 
         public Vector GetMaxBound()
         {
@@ -109,7 +63,5 @@ namespace SharpEngine
             glEnableVertexAttribArray(1);
             glBindVertexArray(0);
         }
-
-        private float GetRadians(float degree) => degree * (MathF.PI / 180f);
     }
 }
