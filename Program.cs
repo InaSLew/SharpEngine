@@ -43,9 +43,9 @@ namespace SharpEngine
             scene.Add(newTriangle);
 
             // engine rendering loop
-            var direction = Vector.One * .0001f;
+            var direction = Vector.One * .0005f;
             var multiplier = .999f;
-            var rotation = .055f;
+            var rotation = .0005f;
 
             while (window.IsOpen())
             {
@@ -53,7 +53,6 @@ namespace SharpEngine
                 for (var i = 0; i < scene.triangles.Count; i++)
                 {
                     var triangle = scene.triangles[i];
-                    
                     triangle.Transform.Scale(multiplier);
                     if (triangle.Transform.CurrentScale.x <= 0.5f) {
                         multiplier = 1.001f;
@@ -61,7 +60,7 @@ namespace SharpEngine
                     if (triangle.Transform.CurrentScale.x >= 1f) {
                         multiplier = 0.999f;
                     }
-
+                    
                     triangle.Transform.Rotate(rotation);
                     
                     if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)

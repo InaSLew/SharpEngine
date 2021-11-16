@@ -78,29 +78,36 @@ namespace SharpEngine
             return result;
         }
 
-        public static Matrix Rotate(float radians)
+        public static Matrix RotateX(float x)
         {
             var result = Identity;
-
-            // x-axis rotation
-            result.m22 = MathF.Cos(radians);
-            result.m23 = MathF.Sin(radians) * -1;
-            result.m32 = MathF.Sin(radians);
-            result.m33 = MathF.Cos(radians);
-            
-            // y-axis rotation
-            // result.m11 = MathF.Cos(radians);
-            // result.m13 = MathF.Sin(radians);
-            // result.m31 = MathF.Sin(radians) * -1;
-            // result.m33 = MathF.Cos(radians);
-            
-            // z-axis rotation
-            // result.m11 = MathF.Cos(radians);
-            // result.m12 = MathF.Sin(radians) * -1;
-            // result.m21 = MathF.Sin(radians);
-            // result.m22 = MathF.Cos(radians);
-            
+            result.m22 = MathF.Cos(x);
+            result.m23 = MathF.Sin(x) * -1;
+            result.m32 = MathF.Sin(x);
+            result.m33 = MathF.Cos(x);
             return result;
         }
+        
+        public static Matrix RotateY(float y)
+        {
+            var result = Identity;
+            result.m11 = MathF.Cos(y);
+            result.m13 = MathF.Sin(y);
+            result.m31 = MathF.Sin(y) * -1;
+            result.m33 = MathF.Cos(y);
+            return result;
+        }
+        
+        public static Matrix RotateZ(float z)
+        {
+            var result = Identity;
+            result.m11 = MathF.Cos(z);
+            result.m12 = MathF.Sin(z) * -1;
+            result.m21 = MathF.Sin(z);
+            result.m22 = MathF.Cos(z);
+            return result;
+        }
+
+        public static Matrix Rotate(Vector rotation) => RotateZ(rotation.z) * RotateY(rotation.y) * RotateX(rotation.x);
     }
 }
