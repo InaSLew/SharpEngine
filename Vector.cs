@@ -35,9 +35,8 @@ namespace SharpEngine
         public float GetMagnitude() => MathF.Sqrt(x * x + y * y + z * z);
         public Vector Normalize() => GetMagnitude() > 0 ? this / GetMagnitude() : this;
 
-        // public float Dot(Vector lhs, Vector rhs)
-        // {
-        //     // (magnitudes of lhs * rhs) * cos(Atan2())
-        // }
+        public static float Dot(Vector lhs, Vector rhs) => (float) ((double) lhs.x * (double) rhs.x +
+                                                             (double) lhs.y * (double) rhs.y +
+                                                             (double) lhs.z * (double) rhs.z);
     }
 }
