@@ -38,9 +38,13 @@ namespace SharpEngine
             var scene = new Scene();
             window.Load(scene);
             
-            var shape = new Triangle(.03f, .03f, new Vector(0, 0), material);
-            shape.Transform.CurrentScale = new Vector(1.5f, 1f, 1f);
-            scene.Add(shape);
+            var player = new Triangle(.03f, .03f, new Vector(0, 0), material);
+            player.Transform.CurrentScale = new Vector(.5f, 2.5f, 1f);
+            scene.Add(player);
+
+            var cube = new Rectangle(.04f, .06f, new Vector(0, .5f), material);
+            cube.Transform.CurrentScale = new Vector(1.5f, 1.5f, 1f);
+            scene.Add(cube);
 
             var ground = new Rectangle(.04f, .05f, new Vector(0, -1), material);
             ground.Transform.CurrentScale = new Vector(20f, 1f, 1f);
@@ -58,26 +62,36 @@ namespace SharpEngine
                 {
                     previousFixedStep += fixedDeltaTime;
                     var walkDirection = new Vector();
-                    if (window.GetKey(Keys.W)) walkDirection += shape.Transform.Forward;
-                    if (window.GetKey(Keys.S)) walkDirection += shape.Transform.Backward;
-                    if (window.GetKey(Keys.A)) walkDirection += shape.Transform.Left;
-                    if (window.GetKey(Keys.D)) walkDirection += shape.Transform.Right;
+                    if (window.GetKey(Keys.W)) walkDirection += player.Transform.Forward;
+                    if (window.GetKey(Keys.S)) walkDirection += player.Transform.Backward;
+                    if (window.GetKey(Keys.A)) walkDirection += player.Transform.Left;
+                    if (window.GetKey(Keys.D)) walkDirection += player.Transform.Right;
                     
                     if (window.GetKey(Keys.Q))
                     {
-                        var rotation = shape.Transform.Rotation;
+                        var rotation = player.Transform.Rotation;
                         rotation.z += MathF.PI * fixedDeltaTime;
-                        shape.Transform.Rotation = rotation;
+                        player.Transform.Rotation = rotation;
                     }
                     if (window.GetKey(Keys.E))
                     {
-                        var rotation = shape.Transform.Rotation;
+                        var rotation = player.Transform.Rotation;
                         rotation.z -= MathF.PI * fixedDeltaTime;
-                        shape.Transform.Rotation = rotation;
+                        player.Transform.Rotation = rotation;
+                    }
+
+                    var dotProduct = Vector.Dot(player.Transform.Forward, cube.position);
+                    if (dotProduct < 0)
+                    {
+                        Console.WriteLine("hmm wonder where the cube is?");
+                    }
+                    else if (dotProduct > 0)
+                    {
+                        Console.WriteLine("Found it!");
                     }
 
                     walkDirection = walkDirection.Normalize();
-                    shape.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
+                    player.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
                     // for (var i = 0; i < scene.Triangles.Count; i++)
                     // {
                     //     var triangle = scene.Triangles[i];
