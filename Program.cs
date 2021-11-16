@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using GLFW;
 using static OpenGL.Gl;
 
@@ -7,8 +6,8 @@ namespace SharpEngine
 {
     class Program
     {
-        private const string vertexShaderPath = "shaders/Shape.vert";
-        private const string fragmentShaderPath = "shaders/Shape.frag";
+        private const string VertexShaderPath = "shaders/Shape.vert";
+        private const string FragmentShaderPath = "shaders/Shape.frag";
         
         static float Lerp(float from, float to, float t) => from + (to - from) * t;
 
@@ -32,10 +31,10 @@ namespace SharpEngine
             // }
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
             var window = new Window();
-            var material = new Material(vertexShaderPath, fragmentShaderPath);
+            var material = new Material(VertexShaderPath, FragmentShaderPath);
             var scene = new Scene();
             window.Load(scene);
             
@@ -43,37 +42,43 @@ namespace SharpEngine
             scene.Add(newTriangle);
 
             // engine rendering loop
-            var direction = Vector.One * .0005f;
-            var multiplier = .999f;
-            // var rotation = .0005f;
-            var rotation = new Vector(0, .0005f, 0);
+            var direction = Vector.One * .01f;
+            var multiplier = .95f;
+            var rotation = new Vector(0, .05f, 0);
+            const int fixedStepNumberPerSecond = 30;
+            const double fixedStepUnit = 1.0 / fixedStepNumberPerSecond;
+            double previousUpdate = 0.0;
 
             while (window.IsOpen())
             {
-                
-                for (var i = 0; i < scene.triangles.Count; i++)
+                if (Glfw.Time > previousUpdate + fixedStepUnit)
                 {
-                    var triangle = scene.triangles[i];
-                    triangle.Transform.Scale(multiplier);
-                    if (triangle.Transform.CurrentScale.x <= 0.5f) {
-                        multiplier = 1.001f;
-                    }
-                    if (triangle.Transform.CurrentScale.x >= 1f) {
-                        multiplier = 0.999f;
-                    }
-                    
-                    triangle.Transform.Rotate(rotation);
-                    
-                    if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)
+                    previousUpdate = Glfw.Time;
+                    for (var i = 0; i < scene.triangles.Count; i++)
                     {
-                        direction.x *= -1;
+                        var triangle = scene.triangles[i];
+                        triangle.Transform.Scale(multiplier);
+                        if (triangle.Transform.CurrentScale.x <= 0.5f) {
+                            multiplier = 1.05f;
+                        }
+                        if (triangle.Transform.CurrentScale.x >= 1f) {
+                            multiplier = .95f;
+                        }
+                    
+                        triangle.Transform.Rotate(rotation);
+                    
+                        if (triangle.GetMaxBound().x >= 1 && direction.x > 0 || triangle.GetMinBound().x <= -1 && direction.x < 0)
+                        {
+                            direction.x *= -1;
+                        }
+                        if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0)
+                        {
+                            direction.y *= -1;
+                        }
+                        triangle.Transform.Move(direction);
                     }
-                    if (triangle.GetMaxBound().y >= 1 && direction.y > 0 || triangle.GetMinBound().y <= -1 && direction.y < 0)
-                    {
-                        direction.y *= -1;
-                    }
-                    triangle.Transform.Move(direction);
                 }
+                
                 window.Render();
             }
             Glfw.Terminate();
