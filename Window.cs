@@ -39,5 +39,7 @@ namespace SharpEngine
             scene?.Render();
             Glfw.SwapBuffers(window);
         }
+
+        public bool GetKey(Keys key) => Glfw.GetKey(this.window, key) == InputState.Press;
     }
 }
