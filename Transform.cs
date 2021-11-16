@@ -23,10 +23,12 @@ namespace SharpEngine
             CurrentScale *= multiplier;
         }
         
-        public virtual void Rotate(float zAngle)
+        public virtual void Rotate(Vector r)
         {
             var rotation = Rotation;
-            rotation.z += zAngle;
+            rotation.x += r.x;
+            rotation.y += r.y;
+            rotation.z += r.z;
             Rotation = rotation;
         }
     }

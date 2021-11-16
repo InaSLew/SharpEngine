@@ -45,7 +45,8 @@ namespace SharpEngine
             // engine rendering loop
             var direction = Vector.One * .0005f;
             var multiplier = .999f;
-            var rotation = .0005f;
+            // var rotation = .0005f;
+            var rotation = new Vector(0, .0005f, 0);
 
             while (window.IsOpen())
             {
