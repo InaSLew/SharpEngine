@@ -55,10 +55,10 @@ namespace SharpEngine
                     var triangle = scene.triangles[i];
                     
                     triangle.Transform.Scale(multiplier);
-                    if (triangle.Transform.CurrentScale.GetMagnitude() <= 0.5f) {
+                    if (triangle.Transform.CurrentScale.x <= 0.5f) {
                         multiplier = 1.001f;
                     }
-                    if (triangle.Transform.CurrentScale.GetMagnitude() >= 1f) {
+                    if (triangle.Transform.CurrentScale.x >= 1f) {
                         multiplier = 0.999f;
                     }
 

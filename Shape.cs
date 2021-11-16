@@ -5,7 +5,7 @@ namespace SharpEngine
 {
     public abstract class Shape
     {
-        private Vertex[] vertices;
+        protected Vertex[] vertices;
         uint vertexArray;
         uint vertexBuffer;
         public Transform Transform { get; }
