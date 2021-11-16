@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using static OpenGL.Gl;
 
 namespace SharpEngine
@@ -10,12 +11,15 @@ namespace SharpEngine
         private uint vertexBuffer;
         public Transform Transform { get; }
         private Material material;
-        public Shape(Vertex[] vertices, Material material)
+        protected Color color { get; set; }
+        
+        public Shape(Vertex[] vertices, Material material, Color color)
         {
             this.vertices = vertices;
             this.material = material;
             LoadVerticesIntoBuffer();
             Transform = new Transform();
+            this.color = color;
         }
 
         public Vector GetMaxBound()
@@ -37,6 +41,15 @@ namespace SharpEngine
             }
 
             return min;
+        }
+
+        public void SetColor(Color newColor)
+        {
+            color = newColor;
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].Color = color;
+            }
         }
 
         public virtual unsafe void Render()

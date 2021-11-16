@@ -7,7 +7,7 @@ namespace SharpEngine
         public float width, height;
         public Vector position;
 
-        public Triangle(float width, float height, Vector position, Material material) : base(new Vertex[3], material)
+        public Triangle(float width, float height, Vector position, Material material) : base(new Vertex[3], material, Color.Blue)
         {
             this.width = width;
             this.height = height;
@@ -18,9 +18,9 @@ namespace SharpEngine
         private Vertex[] GetVertices()
         {
             var result = new Vertex[3];
-            result[0] = new Vertex(new Vector(position.x, position.y + height), Color.Red);
-            result[1] = new Vertex(new Vector(position.x + width, position.y), Color.Green);
-            result[2] = new Vertex(position, Color.Blue);
+            result[0] = new Vertex(new Vector(position.x, position.y + height), color);
+            result[1] = new Vertex(new Vector(position.x + width, position.y), color);
+            result[2] = new Vertex(position, color);
             return result;
         }
 

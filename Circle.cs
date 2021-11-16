@@ -10,7 +10,7 @@ namespace SharpEngine
         private const int NumberOfTriangles = 36;
         private const float TwicePi = 2f * MathF.PI;
     
-        public Circle(float radius, Vector position, Material material) : base(new Vertex[NumberOfTriangles], material)
+        public Circle(float radius, Vector position, Material material) : base(new Vertex[NumberOfTriangles], material, Color.Blue)
         {
             this.radius = radius;
             this.position = position;
@@ -20,31 +20,9 @@ namespace SharpEngine
         private Vertex[] GetVertices()
         {
             var result = new Vertex[NumberOfTriangles];
-            var red = 1f;
-            var green = 0f;
-            var blue = 0f;
             for (var i = 0; i < vertices.Length; i++)
             {
-                result[i] = new Vertex(GetVectorOnCircumference(i), Color.None)
-                {
-                    Color = new Color(red, green, blue, 1)
-                };
-            
-                if (red > 0) red -= .084f;
-                else green = 1f;
-                
-                if (green > 0)
-                {
-                    red = 0;
-                    green -= .084f;
-                }
-                else blue = 1f;
-                
-                if (blue > 0)
-                {
-                    green = 0;
-                    blue -= .09f;
-                }
+                result[i] = new Vertex(GetVectorOnCircumference(i), color);
             }
             return result;
         }

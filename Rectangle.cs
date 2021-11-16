@@ -6,8 +6,8 @@ namespace SharpEngine
     {
         public float width, height;
         public Vector position;
-    
-        public Rectangle(float width, float height, Vector position, Material material) : base(new Vertex[4], material)
+
+        public Rectangle(float width, float height, Vector position, Material material) : base(new Vertex[4], material, Color.Blue)
         {
             this.width = width;
             this.height = height;
@@ -18,12 +18,12 @@ namespace SharpEngine
         private Vertex[] GetVertices()
         {
             var result = new Vertex[6];
-            result[0] = new Vertex(position, Color.Red);
-            result[1] = new Vertex(new Vector(position.x + width, position.y), Color.Green);
-            result[2] = new Vertex(new Vector(position.x, position.y + height), Color.Blue);
-            result[3] = new Vertex(new Vector(position.x + width, position.y + height), Color.Red);
-            result[4] = new Vertex(new Vector(position.x + width, position.y), Color.Green);
-            result[5] = new Vertex(new Vector(position.x, position.y + height), Color.Blue);
+            result[0] = new Vertex(position, color);
+            result[1] = new Vertex(new Vector(position.x + width, position.y), color);
+            result[2] = new Vertex(new Vector(position.x, position.y + height), color);
+            result[3] = new Vertex(new Vector(position.x + width, position.y + height), color);
+            result[4] = new Vertex(new Vector(position.x + width, position.y), color);
+            result[5] = new Vertex(new Vector(position.x, position.y + height), color);
             
             return result;
         }

@@ -81,14 +81,8 @@ namespace SharpEngine
                     }
 
                     var dotProduct = Vector.Dot(player.Transform.Forward, cube.position);
-                    if (dotProduct < 0)
-                    {
-                        Console.WriteLine("hmm wonder where the cube is?");
-                    }
-                    else if (dotProduct > 0)
-                    {
-                        Console.WriteLine("Found it!");
-                    }
+                    if (dotProduct < 0) cube.SetColor(Color.Red);
+                    else if (dotProduct > 0) cube.SetColor(Color.Green);
 
                     walkDirection = walkDirection.Normalize();
                     player.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
