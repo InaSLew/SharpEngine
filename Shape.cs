@@ -8,76 +8,78 @@ namespace SharpEngine
     {
         protected Vertex[] vertices;
         
-        private Matrix transform = Matrix.Identity;
-        public Vector Translation => new Vector(transform.m14, transform.m24, transform.m34);
+        // private Matrix transform = Matrix.Identity;
+        // public Vector Translation => new Vector(transform.m14, transform.m24, transform.m34);
 
         uint vertexArray;
         uint vertexBuffer;
-        public float CurrentScale { get; private set; }
+        // public float CurrentScale { get; private set; }
+        public Transform Transform { get; }
         public Material material;
         public Shape(Vertex[] vertices, Material material)
         {
             this.vertices = vertices;
             this.material = material;
-            CurrentScale = 1f;
+            // CurrentScale = 1f;
             LoadVerticesIntoBuffer();
+            Transform = new Transform();
         }
         
-        public void Move(Vector direction)
-        {
-            transform *= Matrix.Translate(direction);
-        }
-
-        public void Scale(float multiplier)
-        {
-            // var center = GetCenter();
-            // Move(center * -1);
-            //
-            // for (int i = 0; i < vertices.Length; i++)
-            // {
-            //     vertices[i].Position *= multiplier;
-            // }
-            //
-            // Move(center);
-            //;
-            transform *= Matrix.Scale(new Vector(multiplier, multiplier));
-            CurrentScale *= multiplier;
-        }
+        // public void Move(Vector direction)
+        // {
+        //     transform *= Matrix.Translate(direction);
+        // }
+        //
+        // public void Scale(float multiplier)
+        // {
+        //     // var center = GetCenter();
+        //     // Move(center * -1);
+        //     //
+        //     // for (int i = 0; i < vertices.Length; i++)
+        //     // {
+        //     //     vertices[i].Position *= multiplier;
+        //     // }
+        //     //
+        //     // Move(center);
+        //     //;
+        //     transform *= Matrix.Scale(new Vector(multiplier, multiplier));
+        //     CurrentScale *= multiplier;
+        // }
         
-        public virtual void Rotate(float degree)
-        {
-            // var center = GetCenter();
-            // Move(center * -1);
-            // for (var i = 0; i < vertices.Length; i++)
-            // {
-            //     var currentAngle = MathF.Atan2(vertices[i].Position.y, vertices[i].Position.x);
-            //     var currentMagnitude = MathF.Sqrt(MathF.Pow(vertices[i].Position.x, 2) + MathF.Pow(vertices[i].Position.y, 2));
-            //     var newPositionX = MathF.Cos(currentAngle + GetRadians(degree)) * currentMagnitude;
-            //     var newPositionY = MathF.Sin(currentAngle + GetRadians(degree)) * currentMagnitude;
-            //     vertices[i].Position = new Vector(newPositionX, newPositionY);
-            // }
-            // Move(center);
-            transform *= Matrix.Rotate(GetRadians(degree));
-        }
+        // public virtual void Rotate(float degree)
+        // {
+        //     // var center = GetCenter();
+        //     // Move(center * -1);
+        //     // for (var i = 0; i < vertices.Length; i++)
+        //     // {
+        //     //     var currentAngle = MathF.Atan2(vertices[i].Position.y, vertices[i].Position.x);
+        //     //     var currentMagnitude = MathF.Sqrt(MathF.Pow(vertices[i].Position.x, 2) + MathF.Pow(vertices[i].Position.y, 2));
+        //     //     var newPositionX = MathF.Cos(currentAngle + GetRadians(degree)) * currentMagnitude;
+        //     //     var newPositionY = MathF.Sin(currentAngle + GetRadians(degree)) * currentMagnitude;
+        //     //     vertices[i].Position = new Vector(newPositionX, newPositionY);
+        //     // }
+        //     // Move(center);
+        //     transform *= Matrix.Rotate(GetRadians(degree));
+        // }
 
         private Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
 
         public Vector GetMaxBound()
         {
-            var max =  transform * vertices[0].Position;
+            var max =  Transform.Matrix * vertices[0].Position;
             for (var i = 0; i < vertices.Length; i++)
             {
-                max = Vector.Max(max, transform * vertices[i].Position);
+                max = Vector.Max(max, Transform.Matrix * vertices[i].Position);
             }
             return max;
         }
         
         public Vector GetMinBound()
         {
-            var min = transform * vertices[0].Position;
+            var min = Transform.Matrix * vertices[0].Position;
             for (var i = 0; i < vertices.Length; i++)
             {
-                min = Vector.Min(min, transform * vertices[i].Position);
+                min = Vector.Min(min, Transform.Matrix * vertices[i].Position);
             }
 
             return min;
@@ -86,7 +88,7 @@ namespace SharpEngine
         public virtual unsafe void Render()
         {
             material.Use();
-            material.SetTransform(transform);
+            material.SetTransform(Transform.Matrix);
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
             fixed (Vertex* vertex = &vertices[0])
