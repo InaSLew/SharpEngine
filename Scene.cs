@@ -4,26 +4,17 @@ namespace SharpEngine
 {
     public class Scene
     {
-        public List<Triangle> Triangles;
-        public List<Rectangle> Rectangles;
-        public List<Circle> Circles;
-        // more Lists of shapes can be put here
+        private List<Shape> Shapes;
         public Scene()
         {
-            Triangles = new List<Triangle>();
-            Rectangles = new List<Rectangle>();
-            Circles = new List<Circle>();
+            Shapes = new List<Shape>();
         }
 
-        public void Add(Triangle triangle) => Triangles.Add(triangle);
-        public void Add(Rectangle rectangle) => Rectangles.Add(rectangle);
-        public void Add(Circle circle) => Circles.Add(circle);
+        public void Add(Shape shape) => Shapes.Add(shape);
 
         public void Render()
         {
-            Triangles.ForEach(t => t.Render());
-            Rectangles.ForEach(r => r.Render());
-            Circles.ForEach(c => c.Render());
+            Shapes.ForEach(s => s.Render());
         }
     }
 }

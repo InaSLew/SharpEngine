@@ -5,6 +5,12 @@ namespace SharpEngine
     public struct Vector
     {
         internal float x, y, z;
+        
+        public static Vector Forward => new Vector(0, 1);
+        public static Vector Backward => new Vector(0, -1);
+        public static Vector Left => new Vector(-1, 0);
+        public static Vector Right => new Vector(1, 0);
+        public static Vector Zero => new Vector(0, 0);
 
         public Vector(float x, float y, float z)
         {
@@ -26,13 +32,6 @@ namespace SharpEngine
         public static Vector operator -(Vector v0, Vector v1) => new(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
         public static Vector Max(Vector a, Vector b) => new (MathF.Max(a.x, b.x),MathF.Max(a.y, b.y));
         public static Vector Min(Vector a, Vector b) => new (MathF.Min(a.x, b.x),MathF.Min(a.y, b.y));
-        public static readonly Vector Right = new (.0001f, 0);
-        public static readonly Vector Left = new (-.0001f, 0);
-        public static readonly Vector Up = new (0, .0001f);
-        public static readonly Vector Down = new (0, -.0001f);
-        public static readonly Vector Zero = new (0, 0);
-        public static readonly Vector One = new(1, 1);
-
         public float GetMagnitude() => MathF.Sqrt(x * x + y * y + z * z);
         public Vector Normalize() => GetMagnitude() > 0 ? this / GetMagnitude() : this;
     }

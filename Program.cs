@@ -38,18 +38,15 @@ namespace SharpEngine
             var scene = new Scene();
             window.Load(scene);
             
-            Rectangle ground = new Rectangle(.04f, .05f, new Vector(0, -1), material);
+            var shape = new Triangle(.03f, .03f, new Vector(0, 0), material);
+            shape.Transform.CurrentScale = new Vector(1.5f, 1f, 1f);
+            scene.Add(shape);
+
+            var ground = new Rectangle(.04f, .05f, new Vector(0, -1), material);
             ground.Transform.CurrentScale = new Vector(20f, 1f, 1f);
-            
-            Circle circle = new Circle(.025f, new Vector(-.5f, 0), material);
-            scene.Add(circle);
             scene.Add(ground);
 
             // engine rendering loop
-            var direction = Vector.One * .01f;
-            var multiplier = .95f;
-            var rotation = new Vector(0, .05f, 0);
-            var xRotation = new Vector(.05f, 0, 0);
             const int fixedStepNumberPerSecond = 30;
             const float fixedDeltaTime = 1.0f / fixedStepNumberPerSecond;
             const float movementSpeed = .5f;
@@ -59,28 +56,40 @@ namespace SharpEngine
             {
                 if (Glfw.Time > previousFixedStep + fixedDeltaTime)
                 {
-                    // previousFixedStep = Glfw.Time;
                     previousFixedStep += fixedDeltaTime;
-                    var walkDirectoin = new Vector();
+                    var walkDirection = new Vector();
                     if (window.GetKey(Keys.W))
                     {
-                        walkDirectoin += new Vector(0, 1);
+                        walkDirection += shape.Transform.Forward;
                     }
                     if (window.GetKey(Keys.S))
                     {
-                        walkDirectoin += new Vector(0, -1);
+                        walkDirection += Vector.Backward;
                     }
                     if (window.GetKey(Keys.A))
                     {
-                        walkDirectoin += new Vector(-1, 0);
+                        walkDirection += Vector.Left;
                     }
                     if (window.GetKey(Keys.D))
                     {
-                        walkDirectoin += new Vector(1, 0);
+                        walkDirection += Vector.Right;
+                    }
+                    
+                    if (window.GetKey(Keys.Q))
+                    {
+                        var rotation = shape.Transform.Rotation;
+                        rotation.z += MathF.PI * fixedDeltaTime;
+                        shape.Transform.Rotation = rotation;
+                    }
+                    if (window.GetKey(Keys.E))
+                    {
+                        var rotation = shape.Transform.Rotation;
+                        rotation.z -= MathF.PI * fixedDeltaTime;
+                        shape.Transform.Rotation = rotation;
                     }
 
-                    walkDirectoin = walkDirectoin.Normalize();
-                    circle.Transform.Position += walkDirectoin * movementSpeed * fixedDeltaTime;
+                    walkDirection = walkDirection.Normalize();
+                    shape.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
                     // for (var i = 0; i < scene.Triangles.Count; i++)
                     // {
                     //     var triangle = scene.Triangles[i];
