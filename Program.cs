@@ -40,8 +40,10 @@ namespace SharpEngine
             
             Triangle newTriangle = new Triangle(.3f, .4f, new Vector(-.3f, 0), material);
             Rectangle newRect = new Rectangle(.04f, .05f, new Vector(0, 0), material);
+            Circle newCircle = new Circle(.25f, new Vector(-.5f, 0), material);
             scene.Add(newTriangle);
             scene.Add(newRect);
+            scene.Add(newCircle);
 
             // engine rendering loop
             var direction = Vector.One * .01f;
@@ -103,6 +105,31 @@ namespace SharpEngine
                             direction.y *= -1;
                         }
                         rect.Transform.Move(direction);
+                    }
+
+                    var circles = scene.Circles;
+                    for (var i = 0; i < circles.Count; i++)
+                    {
+                        var circle = circles[i];
+                        circle.Transform.Scale(multiplier);
+                        if (circle.Transform.CurrentScale.x <= 0.5f) {
+                            multiplier = 1.05f;
+                        }
+                        if (circle.Transform.CurrentScale.x >= 1f) {
+                            multiplier = .95f;
+                        }
+                    
+                        circle.Transform.Rotate(rotation);
+                    
+                        if (circle.GetMaxBound().x >= 1 && direction.x > 0 || circle.GetMinBound().x <= -1 && direction.x < 0)
+                        {
+                            direction.x *= -1;
+                        }
+                        if (circle.GetMaxBound().y >= 1 && direction.y > 0 || circle.GetMinBound().y <= -1 && direction.y < 0)
+                        {
+                            direction.y *= -1;
+                        }
+                        circle.Transform.Move(direction);
                     }
                 }
                 
