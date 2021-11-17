@@ -4,7 +4,7 @@ namespace SharpEngine
 {
     public class Scene
     {
-        private List<Shape> Shapes;
+        internal List<Shape> Shapes;
         public Scene()
         {
             Shapes = new List<Shape>();

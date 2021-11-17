@@ -39,20 +39,22 @@ namespace SharpEngine
             var physics = new Physics(scene);
             window.Load(scene);
             
-            var player = new Triangle(.03f, .03f, new Vector(0, 0), material, Color.Blue);
-            player.Transform.CurrentScale = new Vector(.5f, 1.5f, 1f);
-            scene.Add(player);
+            // var player = new Triangle(.03f, .03f, new Vector(0, 0), material, Color.Blue);
+            // player.Transform.CurrentScale = new Vector(.5f, 1.5f, 1f);
+            // scene.Add(player);
 
-            var cube = new Rectangle(.04f, .06f, new Vector(0, .5f), material, Color.White);
-            cube.Transform.CurrentScale = new Vector(1.5f, 1.5f, 1f);
-            scene.Add(cube);
+            // var cube = new Rectangle(.04f, .06f, new Vector(0, .5f), material, Color.White);
+            // cube.Transform.CurrentScale = new Vector(1.5f, 1.5f, 1f);
+            // scene.Add(cube);
 
-            var circle = new Circle(.05f, new Vector(.25f, .5f), material, Color.White);
+            var circle = new Circle(.05f, new Vector(0, 0), material, Color.White);
+            circle.Transform.Position = Vector.Left;
+            circle.velocity = Vector.Right * .3f;
             scene.Add(circle);
 
-            var ground = new Rectangle(.04f, .05f, new Vector(0, -1), material, new Color(.58f, .29f, 0, 1f));
-            ground.Transform.CurrentScale = new Vector(20f, 1f, 1f);
-            scene.Add(ground);
+            // var ground = new Rectangle(.04f, .05f, new Vector(0, -1), material, new Color(.58f, .29f, 0, 1f));
+            // ground.Transform.CurrentScale = new Vector(20f, 1f, 1f);
+            // scene.Add(ground);
 
             // engine rendering loop
             const int fixedStepNumberPerSecond = 30;
@@ -62,41 +64,42 @@ namespace SharpEngine
 
             while (window.IsOpen())
             {
-                if (Glfw.Time > previousFixedStep + fixedDeltaTime)
+                while (Glfw.Time > previousFixedStep + fixedDeltaTime)
                 {
                     previousFixedStep += fixedDeltaTime;
-                    var walkDirection = new Vector();
-                    if (window.GetKey(Keys.W)) walkDirection += player.Transform.Forward;
-                    if (window.GetKey(Keys.S)) walkDirection += player.Transform.Backward;
-                    if (window.GetKey(Keys.A)) walkDirection += player.Transform.Left;
-                    if (window.GetKey(Keys.D)) walkDirection += player.Transform.Right;
-                    
-                    if (window.GetKey(Keys.Q))
-                    {
-                        var rotation = player.Transform.Rotation;
-                        rotation.z += MathF.PI * fixedDeltaTime;
-                        player.Transform.Rotation = rotation;
-                    }
-                    if (window.GetKey(Keys.E))
-                    {
-                        var rotation = player.Transform.Rotation;
-                        rotation.z -= MathF.PI * fixedDeltaTime;
-                        player.Transform.Rotation = rotation;
-                    }
-
-                    walkDirection = walkDirection.Normalize();
-                    player.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
-                    
-                    // cube stuff
-                    var dotProduct = Vector.Dot(player.Transform.Forward, cube.position);
-                    cube.SetColor(dotProduct > 0 ? Color.Green : Color.Red);
-
-                    // circle stuff
-                    var vectorSubtraction =  circle.GetCenter() - player.GetCenter();
-                    var angle = MathF.Acos(Vector.Dot(vectorSubtraction.Normalize(),
-                        player.Transform.Forward.Normalize()));
-                    var colorFactor = angle / MathF.PI;
-                    circle.SetColor(new Color(colorFactor, colorFactor, colorFactor, 1));
+                    physics.Update(fixedDeltaTime);
+                    // var walkDirection = new Vector();
+                    // if (window.GetKey(Keys.W)) walkDirection += player.Transform.Forward;
+                    // if (window.GetKey(Keys.S)) walkDirection += player.Transform.Backward;
+                    // if (window.GetKey(Keys.A)) walkDirection += player.Transform.Left;
+                    // if (window.GetKey(Keys.D)) walkDirection += player.Transform.Right;
+                    //
+                    // if (window.GetKey(Keys.Q))
+                    // {
+                    //     var rotation = player.Transform.Rotation;
+                    //     rotation.z += MathF.PI * fixedDeltaTime;
+                    //     player.Transform.Rotation = rotation;
+                    // }
+                    // if (window.GetKey(Keys.E))
+                    // {
+                    //     var rotation = player.Transform.Rotation;
+                    //     rotation.z -= MathF.PI * fixedDeltaTime;
+                    //     player.Transform.Rotation = rotation;
+                    // }
+                    //
+                    // walkDirection = walkDirection.Normalize();
+                    // player.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
+                    //
+                    // // cube stuff
+                    // var dotProduct = Vector.Dot(player.Transform.Forward, cube.position);
+                    // cube.SetColor(dotProduct > 0 ? Color.Green : Color.Red);
+                    //
+                    // // circle stuff
+                    // var vectorSubtraction =  circle.GetCenter() - player.GetCenter();
+                    // var angle = MathF.Acos(Vector.Dot(vectorSubtraction.Normalize(),
+                    //     player.Transform.Forward.Normalize()));
+                    // var colorFactor = angle / MathF.PI;
+                    // circle.SetColor(new Color(colorFactor, colorFactor, colorFactor, 1));
                 }
                 
                 window.Render();

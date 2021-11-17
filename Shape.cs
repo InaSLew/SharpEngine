@@ -11,6 +11,10 @@ namespace SharpEngine
         private uint vertexBuffer;
         public Transform Transform { get; }
         private Material material;
+        
+        // physics implementation-related
+        public Vector velocity;
+        
         protected Color color { get; set; }
         
         public Shape(Vertex[] vertices, Material material, Color color)
