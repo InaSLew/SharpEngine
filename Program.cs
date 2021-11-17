@@ -83,29 +83,19 @@ namespace SharpEngine
                         player.Transform.Rotation = rotation;
                     }
 
-                    // cube stuff
-                    var dotProduct = Vector.Dot(player.Transform.Forward, cube.position);
-                    if (dotProduct < 0) cube.SetColor(Color.Red);
-                    else if (dotProduct > 0) cube.SetColor(Color.Green);
-                    
-                    // circle stuff
-                    // var vectorSubtraction =  player.Transform.GetTransformedPosition() - circle.Transform.GetTransformedPosition();
-                    var vectorSubtraction =  player.Transform.Position - circle.Transform.Position;
-                    var colorRel = 1 / MathF.PI;
-                    var color = MathF.Acos(Vector.Dot(vectorSubtraction.Normalize(),
-                        player.Transform.Forward.Normalize())) * colorRel;
-                    circle.SetColor(new Color(color, color, color, color));
-                    
-                    // keeping it for test purposes
-                    var inRadians = MathF.Acos(Vector.Dot(vectorSubtraction.Normalize(),
-                        player.Transform.Forward.Normalize()));
-                    var inDegree = (int)Math.Round(inRadians * 180f / MathF.PI, 0);
-                    // if (inDegree is >= 0 and <= 5) circle.SetColor(Color.Black);
-                    // else if (inDegree is >= 175 and <= 180) circle.SetColor(Color.White);
-                    Console.WriteLine($"{inDegree} degrees between player forward vector and circle position");
-
                     walkDirection = walkDirection.Normalize();
                     player.Transform.Position += walkDirection * movementSpeed * fixedDeltaTime;
+                    
+                    // cube stuff
+                    var dotProduct = Vector.Dot(player.Transform.Forward, cube.position);
+                    cube.SetColor(dotProduct > 0 ? Color.Green : Color.Red);
+
+                    // circle stuff
+                    var vectorSubtraction =  circle.GetCenter() - player.GetCenter();
+                    var angle = MathF.Acos(Vector.Dot(vectorSubtraction.Normalize(),
+                        player.Transform.Forward.Normalize()));
+                    var colorFactor = angle / MathF.PI;
+                    circle.SetColor(new Color(colorFactor, colorFactor, colorFactor, 1));
                 }
                 
                 window.Render();

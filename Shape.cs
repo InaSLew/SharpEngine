@@ -43,6 +43,8 @@ namespace SharpEngine
             return min;
         }
 
+        public Vector GetCenter() => (GetMinBound() + GetMaxBound()) / 2;
+
         public void SetColor(Color newColor)
         {
             color = newColor;
