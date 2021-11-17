@@ -30,13 +30,13 @@ namespace SharpEngine
         public static Vector operator /(Vector v, float f) => new (v.x / f, v.y / f, v.z / f);
         public static Vector operator +(Vector v0, Vector v1) => new(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
         public static Vector operator -(Vector v0, Vector v1) => new(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
+        public static Vector operator -(Vector v) => new (-v.x, -v.y, -v.z);
         public static Vector Max(Vector a, Vector b) => new (MathF.Max(a.x, b.x),MathF.Max(a.y, b.y));
         public static Vector Min(Vector a, Vector b) => new (MathF.Min(a.x, b.x),MathF.Min(a.y, b.y));
-        public float GetMagnitude() => MathF.Sqrt(x * x + y * y + z * z);
+        public static float Dot(Vector lhs, Vector rhs) => lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+        public static float Angle(Vector v) => MathF.Atan2(v.y, v.x);
+        private float GetMagnitude() => MathF.Sqrt(x * x + y * y + z * z);
         public Vector Normalize() => GetMagnitude() > 0 ? this / GetMagnitude() : this;
-
-        public static float Dot(Vector lhs, Vector rhs) => (float) ((double) lhs.x * (double) rhs.x +
-                                                             (double) lhs.y * (double) rhs.y +
-                                                             (double) lhs.z * (double) rhs.z);
+        
     }
 }
