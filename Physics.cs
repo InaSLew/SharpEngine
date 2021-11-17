@@ -23,6 +23,9 @@ namespace SharpEngine
             
                 // linear velocity:
                 gameObj.Transform.Position += gameObj.velocity * deltaTime;
+                var acceleration = gameObj.linearForce / gameObj.mass;
+                gameObj.Transform.Position += acceleration * deltaTime * deltaTime / 2;
+                gameObj.velocity += acceleration * deltaTime;
             }
         }
     }
