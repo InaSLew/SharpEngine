@@ -14,7 +14,9 @@ namespace SharpEngine
         
         // physics implementation-related
         public Vector velocity;
-        
+        public Vector linearForce;
+        public float mass = 1f;
+
         protected Color color { get; set; }
         
         public Shape(Vertex[] vertices, Material material, Color color)

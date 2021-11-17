@@ -43,15 +43,17 @@ namespace SharpEngine
             // player.Transform.CurrentScale = new Vector(.5f, 1.5f, 1f);
             // scene.Add(player);
 
-            // var cube = new Rectangle(.04f, .06f, new Vector(0, .5f), material, Color.White);
-            // cube.Transform.CurrentScale = new Vector(1.5f, 1.5f, 1f);
-            // scene.Add(cube);
-
             var circle = new Circle(.05f, new Vector(0, 0), material, Color.White);
             circle.Transform.Position = Vector.Left;
             circle.velocity = Vector.Right * .3f;
             scene.Add(circle);
-
+            
+            var cube = new Rectangle(.04f, .06f, new Vector(0, 0), material, Color.White);
+            cube.Transform.CurrentScale = new Vector(1.5f, 1.5f, 1f);
+            cube.Transform.Position = Vector.Left + Vector.Backward * .2f;
+            // cube.linearForce = Vector.Right * .3f;
+            scene.Add(cube);
+            
             // var ground = new Rectangle(.04f, .05f, new Vector(0, -1), material, new Color(.58f, .29f, 0, 1f));
             // ground.Transform.CurrentScale = new Vector(20f, 1f, 1f);
             // scene.Add(ground);

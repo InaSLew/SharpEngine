@@ -15,11 +15,12 @@ namespace SharpEngine
         public void Update(float deltaTime)
         {
             var gravitationalAcceleration = Vector.Down * GravitationalAcceleration * 0;
+            
             var shapes = scene.Shapes;
             for (var i = 0; i < shapes.Count; i++)
             {
-                var gameObj = shapes[i] as Circle;
-
+                var gameObj = shapes[i];
+            
                 // linear velocity:
                 gameObj.Transform.Position += gameObj.velocity * deltaTime;
             }
