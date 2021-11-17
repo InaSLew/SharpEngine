@@ -36,6 +36,7 @@ namespace SharpEngine
             var window = new Window();
             var material = new Material(VertexShaderPath, FragmentShaderPath);
             var scene = new Scene();
+            var physics = new Physics(scene);
             window.Load(scene);
             
             var player = new Triangle(.03f, .03f, new Vector(0, 0), material, Color.Blue);
