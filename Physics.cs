@@ -14,7 +14,7 @@ namespace SharpEngine
 
         public void Update(float deltaTime)
         {
-            var gravitationalAcceleration = Vector.Down * GravitationalAcceleration * 0;
+            var gravitationalAcceleration = Vector.Down * GravitationalAcceleration / 100;
             
             var shapes = scene.Shapes;
             for (var i = 0; i < shapes.Count; i++)
@@ -23,7 +23,14 @@ namespace SharpEngine
             
                 // linear velocity:
                 gameObj.Transform.Position += gameObj.velocity * deltaTime;
-                var acceleration = gameObj.linearForce / gameObj.mass;
+                
+                // a = Fm
+                var acceleration = gameObj.linearForce / gameObj.Mass;
+                
+                // add gravity to acceleration
+                acceleration += gravitationalAcceleration * gameObj.gravityScale;
+                
+                // linear acceleration
                 gameObj.Transform.Position += acceleration * deltaTime * deltaTime / 2;
                 gameObj.velocity += acceleration * deltaTime;
             }

@@ -15,7 +15,21 @@ namespace SharpEngine
         // physics implementation-related
         public Vector velocity;
         public Vector linearForce;
-        public float mass = 1f;
+        public float gravityScale = 1f;
+        private float mass;
+        private float massInverse;
+
+        public float Mass
+        {
+            get => mass;
+            set
+            {
+                mass = value;
+                massInverse = float.IsPositiveInfinity(value) ? 0f : 1f / value;
+            }
+        }
+
+        public float MassInverse => massInverse;
 
         protected Color color { get; set; }
         
